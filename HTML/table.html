@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Table</title>
+  <style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    } 
+    th, td {
+      background-color: #96D4D4;
+      padding: 15px;
+    }
+  </style>
+</head>
+<body>
+  <table style="width: 100%;">
+    <tr>
+      <th colspan="2">제목1</th>
+
+      <th>제목3</th>
+    </tr>
+    <tr>
+      <td>abc</td>
+      <td>123</td>
+      <td rowspan="2">ㄱㄴㄷ</td>
+    </tr>
+    <tr>
+      <td>111</td>
+      <td>222</td>
+    </tr>
+  </table>
+
+  <ul style="list-style-type:none;">
+    <li>Coffee</li>
+    <li>Tea</li>
+      <ul style="list-style-type:none;">
+        <li>Black tea</li>
+        <li>Green tea</li>
+      </ul>
+    <li>Milk</li>
+  </ul>
+</body>
+</html>
