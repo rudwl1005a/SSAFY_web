@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // function
+      function add_1(a, b) {
+        return a + b;
+      }
+
+      const add_2 = function (a, b) {
+        return a + b;
+      };
+
+      const add_3 = new Function("a", "b", "return a + b"); // 비추
+
+      console.log(add_1(10, 20));
+      console.log(add_2(30, 40));
+      console.log(add_3(30, 40));
+
+      // function을 parameter로
+      function add_4(a, b, func) {
+        let ret = func(a, b);
+        return ret;
+        // return func(a, b);
+      }
+      console.log(add_4(20, 40, add_1));
+
+      // function을 return으로
+      let c = 5; // function 바깥에 있는 변수들은 function 안쪽에서 사용 가능하다
+      function myFunc() {
+        var d = 1000; // d는 로컬변수라서 사용 안됨
+        const add_5 = function (a, b) {
+          return a + b + c;
+        };
+        return add_5;
+      }
+
+      const addTwo = myFunc();
+      console.log(addTwo(20, 100));
+      console.log(d); // Uncaught ReferenceError: d is not defined
+    </script>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // var v1 = 5;
+      // var v1 = "hello";
+      // console.log(v1);
+
+      // {
+      //   var v2 = 10;
+      // }
+      // console.log(v2);
+
+      // var v3;
+      // console.log(v3); // 출력은 되는데 undefined
+      // v3 = 30;
+      // console.log(v3);
+
+      // let l1;
+      // console.log(l1); // 출력o undefined
+      // let l1 = 10; // re declare X
+
+      // Uncaught ReferenceError: Cannot access 'l3' before initialization
+      // console.log(l2);
+      // let l2;
+
+      // let l3 = 10;
+      // {
+      //   console.log(l3); // Uncaught ReferenceError: Cannot access 'b2' before initialization
+      //   let l3 = 11;
+      //   let l4 = 20;
+      // }
+      // console.log(b3); // Uncaught ReferenceError: b3 is not defined
+
+      const c1 = 10;
+      c1 = 40;
+      {
+        console.log(c); // Uncaught TypeError: Assignment to constant variable.
+        const c1 = 20;
+
+        const c2 = 30;
+      }
+
+      console.log(c2);
+    </script>
+  </body>
+</html>
