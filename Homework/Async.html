@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Callback</title>
+    <script>
+      function user_alert(a, b, callback) {
+        callback(a, b);
+      }
+
+      function add(a, b) {
+        alert("a + b : " + (a + b));
+      }
+
+      function mul(a, b) {
+        alert("a * b : " + a * b);
+      }
+
+      user_alert(1, 2, add);
+      user_alert(3, 4, mul);
+    </script>
+  </head>
+  <body></body>
+</html>
