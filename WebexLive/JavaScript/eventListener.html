@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="container">
+      <h4 id="title">제목입니다.</h4>
+      <p id="content">내용입니다.</p>
+      <hr />
+      <!-- 1. inline eventListener -->
+      <button onclick="func1();">제목 변경</button>
+      <button id="btn2">내용 변경</button>
+      <button id="btn3">테두리 변경</button>
+    </div>
+
+    <script>
+      function func1() {
+        document.querySelector("#title").innerText = "변경된 제목";
+      }
+
+      // 2. evnet handler
+      // 누가 무슨 이벤트일 때 => 누가 처리
+      document.querySelector("#btn2").onclick = function () {
+        document.querySelector("#content").innerText = "변경된 내용";
+      };
+
+      // 3. addEventListener
+      document.querySelector("#btn3").addEventListener("click", function () {
+        document.querySelector("#content").style.border = "1px solid blue";
+      });
+    </script>
+  </body>
+</html>

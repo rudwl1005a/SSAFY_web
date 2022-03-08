@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 일반
+      function print(a) {
+        console.log(a);
+      }
+
+      print(0);
+      print("normal");
+
+      // arrowFunction -> rambda와 비슷
+      var print2 = (a) => console.log(a);
+
+      print2(1);
+      print2("arrow 1");
+
+      var print3 = a => console.log(a);
+
+      print3(1);
+      print3("arrow 2");
+
+      var print4 = () => console.log("arrow 3");
+
+      var print5 = () => {
+        console.log("arrow 4");
+        console.log("arrow 4");
+      };
+
+      print5();
+
+      const add = (a, b) => a + b;
+      console.log(add(2, 3));
+
+      // 주의 !!! this
+      // arrow function <= functional programming != oop 와는 거리가 멀다, object this keyword
+
+      const obj = {
+        num: 5,
+        print: () => {
+          console.log(this.num);
+          console.log(this);
+        },
+      };
+
+      obj.print();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // var data = [1, 2, 3];
+
+      // function getData() { // delay async
+      //   setTimeout(() => {
+      //     data.push(4);
+      //     data.push(5);
+      //   }, 1000);
+      // }
+
+      // function printData() {
+      //   data.forEach((n) => console.log(n));
+      // }
+
+      // getData();
+      // printData();
+      // 위의 코드는 바로 해결은 하지 못한다
+
+      // callback parameter 추가 -> 콜백함수를 이용한 비동기 작업
+      var data = [1, 2, 3];
+
+      function getData(callback) { // delay async
+        setTimeout(() => {
+          data.push(4);
+          data.push(5);
+
+          callback();
+        }, 1000);
+      }
+
+      function printData() {
+        data.forEach((n) => console.log(n));
+      }
+
+      getData(printData);
+    </script>
+  </body>
+</html>

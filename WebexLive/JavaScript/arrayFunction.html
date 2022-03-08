@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const players = ["손흥민", "이강인", "이승우", "김민재"];
+
+      var print = function (player) {
+        console.log(player);
+      };
+
+      // foreach
+      players.forEach(print);
+
+      console.warn(" ");
+
+      // foreach + index
+      players.forEach((player, index) => {
+        if (index != 3) {
+          console.log(player);
+        }
+      });
+
+      console.warn(" ");
+
+      // map (java의 Map과 다르다)
+      // map은 return new array
+      const lastNames = players.map((player) => player.charAt(0));
+      lastNames.forEach((ln) => console.log(ln));
+
+      // 한줄로 짧게
+      players.map((player) => player.charAt(0)).forEach((ln) => console.log(ln));
+
+      console.warn(" ");
+
+      // filter
+      // 조건에 맞는 배열 만들기 return new array
+      const words = ["aaa", "bbbb", "ccc", "ddddd", "ee", "fffff"];
+      const result = words.filter((word) => word.length > 3);
+      console.log(result);
+
+      console.warn(" ");
+
+      // concat
+      // 배열 합치기 return new array
+      const players2 = ["차범근", "박지성", "안정환"];
+      const players3 = players.concat(players2);
+      console.log(players3);
+
+      console.warn(" ");
+
+      // slice
+      // 배열 나누기 return new array
+      const nums = [1, 2, 3, 4, 5];
+      console.log(nums.slice(1, 3)); // (시작index(포함o), 종료index(포함x))
+      console.log(nums.slice(3)); // 앞에 3개 자르기
+
+      console.warn(" ");
+
+      // join
+      // 구분자 포함해서 return new array
+      console.log(nums.join()); // default 구분자 -> (,)
+      console.log(nums.join(" ")); // 구분자 -> space ( )
+      console.log(nums.join("/")); // 구분자 -> (/)
+
+      console.warn(" ");
+
+      // reverse
+      // 원본 변경
+      const nums2 = nums.reverse();
+      console.log(nums2);
+      console.log(nums);
+
+      // 문자열 reverse
+      const str = "Hello";
+      console.log(str.split("").reverse().join("")); //split reverse join -> 공식처럼 외우기!
+
+      console.warn(" ");
+
+      // reduce
+      // 배열에서 어떤 계산된 값을 얻고자 할 때 사용
+      const nums3 = [3, 2, 7, 4, 6, 9];
+
+      // sum
+      let sum = nums3.reduce((누적, 현재) => (누적 += 현재));
+      console.log(sum);
+      // min
+      let min = nums3.reduce((acc, cur) => (acc = acc <= cur ? acc : cur), 1000); // 1000은 초기값
+      console.log(min);
+      // max
+      let max = nums3.reduce((acc, cur) => (acc = acc >= cur ? acc : cur), -1000);
+      console.log(max);
+    </script>
+  </body>
+</html>

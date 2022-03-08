@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="first">
+      <div id="second">div</div>
+    </div>
+
+    <script>
+      let obj = { num: 5 };
+
+      console.log(obj);
+      console.log(obj.num);
+
+      setTimeout(() => (obj.num = 10), 5000);
+
+      console.warn("----");
+      console.error("---");
+      console.log(1);
+
+      // dir
+      document.querySelector("#first").onclick = () => alert("first");
+      let el = document.querySelector("#first");
+      console.log(el);
+      console.dir(el);
+    </script>
+  </body>
+</html>
