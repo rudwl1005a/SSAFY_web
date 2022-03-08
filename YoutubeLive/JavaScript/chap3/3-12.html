@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script type="text/javascript">
+	
+	var number = 1, sum = 0;
+	
+	while(number < 11) {
+		sum += number;
+		number++;
+	}
+	console.log(sum);
+	
+	sum = 0;
+	
+	for(var number=1;number<11;number++) {
+		sum += number;
+	}
+	console.log(sum);
+	
+	number = 1;
+	sum = 0;
+	
+	do{
+		sum += number;
+		number++;
+	} while(number < 11);
+	console.log(sum);
+	
+	number = 1;
+	sum = 0;
+	while(number < 11) {
+		sum += number;
+		if(number == 5) {
+			break;
+		}
+		number++
+	}
+	console.log(sum);
+	
+	</script>
+</head>
+<body>
+
+</body>
+</html>
+

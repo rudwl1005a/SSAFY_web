@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Insert title here</title>
+    <script type="text/javascript">
+      // 객체 리터럴
+      var empty_object = {};
+      var member = {
+        'user-name': '홍길동',
+        age: 20,
+        city: '서울',
+      };
+
+      // 속성의 값 변경
+      member.age = 30;
+      member['city'] = '경기도';
+
+      console.log(member['age']); // 30
+      console.log(member.city); // 경기도
+
+      // 속성 추가
+      member.tel = '010-1234-5678';
+      console.log(member.tel); //010-1234-5678
+
+      var x = member;
+      x.city = '제주도';
+      console.log(member.city); //제주도
+    </script>
+  </head>
+  <body></body>
+</html>

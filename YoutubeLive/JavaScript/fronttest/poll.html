@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>온라인투표</title>
+  <link rel="stylesheet" href="./css/poll.css" />
+</head>
+
+<body>
+  <div class="vote">
+    <div class="vote-title">[ 당신의 선택 ]</div>
+    <div class="vote-question">SSAFY에서의 지역선택!!!</div>
+    <div class="vote-answer">
+      <ul>
+        <li>
+          <label><input type="radio" name="vote-answer" value="서울" /> 서울</label>
+        </li>
+      </ul>
+    </div>
+    <div class="vote-button">
+      <button class="button btn-primary" onclick="javascript:poll();">투표하기</button>
+      <button class="button">결과보기</button>
+    </div>
+    <div class="vote-date">투표기간 : 21.09.01 ~ 21.09.30</div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Insert title here</title>
+    <script type="text/javascript">
+      /*
+      var student1 = {
+        name: '김싸피',
+        area: '서울',
+        classNum: 7,
+        info: function () {
+          console.log(this.name + '은 ' + this.area + this.classNum + '반');
+        },
+      };
+      var student2 = {
+        name: '박싸피',
+        area: '대전',
+        classNum: 4,
+        info: function () {
+          console.log(this.name + '은 ' + this.area + this.classNum + '반');
+        },
+      };
+      */
+      // 생성자 함수
+      function Student(name, area, classNum) {
+        this.name = name;
+        this.area = area;
+        this.classNum = classNum;
+        this.info = function () {
+          console.log(this.name + '은 ' + this.area + this.classNum + '반');
+        };
+      }
+
+      // 객체 생성.
+      var student1 = new Student('김싸피', '서울', 7);
+      var student2 = new Student('박싸피', '대전', 4);
+
+      console.log(typeof student1);
+      console.log(typeof student2);
+
+      console.log(student1);
+      console.log(student2);
+
+      student1.info();
+      student2.info();
+    </script>
+  </head>
+  <body></body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script type="text/javascript">
+	
+	var score = 95;
+	
+	if(score >= 90) {
+		console.log('A 학점입니다.');	// A 학점입니다. 출력됨.
+	} else if(score >= 80) {
+		console.log('B 학점입니다.');
+	} else if(score >= 70) {
+		console.log('C 학점입니다.');
+	} else {
+		console.log('F 학점입니다.');
+	}
+	
+	var score2 = 78;
+	
+	switch(parseInt(score2 / 10)) {
+	case 10 : case 9 : console.log('A 학점입니다.'); break;
+	case 8 : console.log('B 학점입니다.'); break;
+	case 7 : console.log('C 학점입니다.'); break;	// C 학점입니다. 출력됨.
+	default : console.log('F 학점입니다.'); 
+	}
+
+	</script>
+</head>
+<body>
+
+</body>
+</html>
+

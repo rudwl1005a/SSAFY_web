@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+
+function openAlert() {
+	alert("알림창입니다.");
+}
+
+function openConfirm() {
+	if(confirm("확인입니까?")) {
+		console.log("확인 눌렀네요.");
+	} else {
+		console.log("취소 눌렀네요.");
+	}
+}
+
+function openPrompt() {
+	var txt = prompt("문자열 입력", "사용자입력");
+	console.log(txt);
+}
+
+</script>
+</head>
+<body>
+<input type="button" value="알림창" onclick="javascript:openAlert();">
+<input type="button" value="확인창" onclick="javascript:openConfirm();">
+<input type="button" value="입력창" onclick="javascript:openPrompt();">
+</body>
+</html>

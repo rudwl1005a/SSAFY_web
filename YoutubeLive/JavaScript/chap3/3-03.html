@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script type="text/javascript">
+	
+	// 언더플로우
+	console.log(0 / 100);		// 0
+	console.log(-0 / 100);		// -0
+	
+	// 오버플로우
+	console.log(100 / 0);		// Infinity
+	console.log(-100 / 0);		// -Infinity
+	console.log(Infinity / 0);	// Infinity
+	console.log(-Infinity / 0);	// -Infinity
+	
+	console.log(0 / 0);				// Nan
+	console.log(parseInt('3A'));	// 1
+	console.log(parseInt('A'));		// NaN
+	
+	console.log(new Number('1'));	// 1
+	console.log(new Number('1A'));	// NaN
+	
+	</script>
+</head>
+<body>
+
+</body>
+</html>
+

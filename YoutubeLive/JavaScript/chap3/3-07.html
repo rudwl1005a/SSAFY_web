@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script type="text/javascript">
+	/*
+	// 변수
+	var listCount = 0;
+	var selected = false;
+	
+	// 상수 - ECMAScript6 이전 보편적 사용 방법
+	var LIST_COUNT = 10;
+	var SELECTED = false;
+	
+	if(listCount < LIST_COUNT) {
+		// todo
+	}
+	console.log('상수 초기값 : ' + LIST_COUNT);		// 10
+	
+	LIST_COUNT = 20;
+	console.log('상수 변경값 : ' + LIST_COUNT);		// 20
+	*/
+	
+	// 변수
+	var listCount = 0;
+	var selected = false;
+	
+	// 상수 - ECMAScript6 
+	const LIST_COUNT = 10;
+	const SELECTED = false;
+	
+	if(listCount < LIST_COUNT) {
+		// todo
+	}
+	console.log('상수 초기값 : ' + LIST_COUNT);		// 10
+	
+	LIST_COUNT = 20;							//error 상수값 변경 불가능.
+	console.log('상수 변경값 : ' + LIST_COUNT);		// 10
+	
+	</script>
+</head>
+<body>
+
+</body>
+</html>
+

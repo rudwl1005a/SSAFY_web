@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<button onclick="javascript:windowOpen();">
+버튼 창열기
+</button>
+<a href="javascript:windowOpen();">링크 창열기</a>
+<div id="view"></div>
+<script>
+function windowOpen() {
+	window.open('./4-6.html', 'winname', 'width=300, height=200');
+}
+
+function setData(data) {
+	document.getElementById("view").innerHTML = data;
+}
+</script>
+</body>
+</html>

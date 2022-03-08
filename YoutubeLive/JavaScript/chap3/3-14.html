@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Insert title here</title>
+    <script type="text/javascript">
+      var student = new Object(); // empty obejct
+      // property 추가
+      student.name = '김싸피';
+      student.area = '서울';
+      student.classNum = 7;
+      student.info = function () {
+        console.log(this.name + '는 ' + this.area + this.classNum + '반');
+      };
+      console.log(typeof student); // object
+      console.log(student); // {name: "김싸피", area: "서울", classNum: 7, info: f}
+      student.info(); // 김싸피는 서울7반
+    </script>
+  </head>
+  <body></body>
+</html>

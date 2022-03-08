@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>opener</title>
+<script type="text/javascript">
+// 부모 창에 값 전달 후 창 닫기
+function setOpenerData(data) {
+	window.opener.setData(data);
+	window.close();
+}
+// 부모 창 새로고침 후 창 닫기
+function reloadOpener() {
+	opener.location.reload();
+	self.close();
+}
+</script>
+</head>
+<body>
+<a href="javascript:setOpenerData('value1');">
+	선택 1
+</a><br>
+<a href="javascript:setOpenerData('value2');">
+	선택 2
+</a><br>
+<a href="javascript:reloadOpener();">
+	부모창 새로고침 후 닫기
+</a>
+</body>
+</html>

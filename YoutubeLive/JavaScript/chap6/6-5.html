@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Insert title here</title>
+</head>
+
+<body>
+  <button id="btn">클릭해보세요</button>
+  <script type="text/javascript">
+    const btn = document.querySelector('#btn');
+    // 첫번째 바인딩된 이벤트 핸들러 ==> 실행되지 않는다.
+    btn.onclick = function () {
+      alert('안녕하세요!!');
+    };
+    // 두번째 바인딩된 이벤트 핸들러
+    btn.onclick = function () {
+      btn.style.color = 'purple';
+      btn.style.fontSize = '30px';
+      btn.style.fontWeight = 'bold';
+    };
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Insert title here</title>
+    <script type="text/javascript">
+      window.onload = function () {
+        var profile = document.createElement("img");
+        profile.src = "profile.png";
+        profile.width = 150;
+        profile.height = 200;
+
+        document.body.appendChild(profile);
+
+        document.body.append(document.createElement("h2").appendChild(document.createTextNode("dynamic text")));
+
+        document.getElementById("divid").appendChild(document.createTextNode("dynamic text"));
+
+      };
+    </script>
+  </head>
+  <body>
+    <h1>h111111</h1>
+    <h2>h222222</h2>
+    <div id="divid"></div>
+    <h3>h333333</h3>
+  </body>
+</html>

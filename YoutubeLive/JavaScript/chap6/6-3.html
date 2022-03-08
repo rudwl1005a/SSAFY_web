@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Insert title here</title>
+    <script type="text/javascript">
+      var msg1 = function () {
+        alert('안녕하세요!!');
+      };
+      var msg2 = function () {
+        var msg = document.querySelector('#div1');
+        msg.style.color = 'purple';
+        msg.style.fontSize = '30px';
+        msg.style.fontWeight = 'bold';
+      };
+    </script>
+  </head>
+  <body>
+    <div id="div1" onclick="msg1(); msg2();">클릭해보세요</div>
+  </body>
+</html>

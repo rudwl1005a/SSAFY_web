@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Insert title here</title>
+    <script type="text/javascript">
+      window.onload = function () {
+        // 변수를 선언하고 element node와 text node 생성.
+        var title = document.createElement('h2');
+        var msg = document.createTextNode('Hello SSAFY !!!');
+
+        // text node를 element node에 추가.
+        title.appendChild(msg);
+        document.body.appendChild(title);
+      };
+    </script>
+  </head>
+  <body></body>
+</html>

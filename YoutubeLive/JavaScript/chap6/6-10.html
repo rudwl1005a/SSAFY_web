@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Insert title here</title>
+    <style>
+      .message {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <label>아이디 <input type="text" /></label>
+    <div class="message"></div>
+
+    <script>
+      const MIN_ID_LENGTH = 8;
+      const input = document.querySelector('input[type=text]');
+      const msg = document.querySelector('.message');
+
+      function checkVal(len) {
+        if (input.value.length < len) {
+          msg.innerHTML = '값은 ' + len + '자 이상 입력해 주세요';
+        } else {
+          msg.innerHTML = '';
+        }
+      }
+
+      input.addEventListener('blur', function () {
+        // 이벤트 핸들러 내부에서 함수를 호출하면서 인수를 전달.
+        checkVal(MIN_ID_LENGTH);
+      });
+    </script>
+  </body>
+</html>

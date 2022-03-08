@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>시계</title>
+	<script type="text/javascript">
+		window.onload = function () {
+			setInterval(showTime, 1000);
+		};
+
+		function showTime() {
+			var view = document.getElementById("view");
+			var date = new Date();
+			view.innerHTML = date.toLocaleTimeString();
+		}
+	</script>
+</head>
+
+<body>
+	현재 시간 : <span id="view"></span>
+</body>
+
+</html>

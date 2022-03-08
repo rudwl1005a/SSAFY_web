@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Localstorage</title>
+    <script type="text/javascript">
+      function init() {
+        //localStorage 데이터 추가 방법 3가지
+        localStorage.Test = 'Sample';
+        // localStorage["Test"] = "Sample";
+        // localStorage.setItem("Test", "Sample");
+      }
+    </script>
+  </head>
+  <body>
+    <body onload="init()">
+      <div id="result"></div>
+    </body>
+  </body>
+</html>
