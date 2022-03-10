@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #shape {
+        width: 400px;
+        height: 400px;
+        border: 1px solid lightsalmon;
+        cursor: pointer;
+      }
+      .circle {
+        border-radius: 50%;
+      }
+
+      .rect {
+        border-radius: 0%;
+      }
+
+      .rounded-rect {
+        border-radius: 15%;
+      }
+
+      .bg-black {
+        background-color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="shape"></div>
+    <hr />
+    <button id="btnCircle" data-click-count="0">circle</button>
+    <button id="btnRect" data-click-count="0">rect</button>
+    <button id="btnRoundedRect" data-click-count="0">rounded-rect</button>
+    <hr />
+    <button id="btnClickCountInfo">click count info</button>
+    <p id="pCountInfo">버튼을 click 하세요.</p>
+
+    <script>
+      var shape;
+      window.onload = function () {
+        shape = document.querySelector("#shape");
+
+        // class add remove
+        // document.querySelector("#btnCircle").addEventListener("click", function () {
+        //   shape.classList.remove("rect", "rounded-rect");
+        //   // shape.classList.remove("rounded-rect");
+        //   shape.classList.add("circle");
+        //   this.setAttribute("data-click-count", parseInt(this.getAttribute("data-click-count")) + 1);
+        // });
+
+        // arrow function에서는 this -> e.target
+        document.querySelector("#btnCircle").addEventListener("click", (e) => {
+          shape.classList.remove("rect", "rounded-rect");
+          // shape.classList.remove("rounded-rect");
+          shape.classList.add("circle");
+          e.target.setAttribute("data-click-count", parseInt(e.target.getAttribute("data-click-count")) + 1);
+        });
+
+        document.querySelector("#btnRect").addEventListener("click", function () {
+          shape.classList.remove("circle", "rounded-rect");
+          // shape.classList.remove("rounded-rect");
+          shape.classList.add("rect");
+          this.setAttribute("data-click-count", parseInt(this.getAttribute("data-click-count")) + 1);
+        });
+
+        document.querySelector("#btnRoundedRect").addEventListener("click", function () {
+          shape.classList.remove("rect", "circle");
+          // shape.classList.remove("circle");
+          shape.classList.add("rounded-rect");
+          this.setAttribute("data-click-count", parseInt(this.getAttribute("data-click-count")) + 1);
+        });
+
+
+        // class toggle
+        shape.addEventListener("mouseover", function () {
+          shape.classList.toggle("bg-black");
+        });
+
+        shape.addEventListener("mouseout", function () {
+          shape.classList.toggle("bg-black");
+        });
+
+        document.querySelector("#btnClickCountInfo").addEventListener("click", function(){
+          let click1 = document.querySelector("#btnCircle").getAttribute("data-click-count");
+          let click2 = document.querySelector("#btnRect").getAttribute("data-click-count");
+          let click3 = document.querySelector("#btnRoundedRect").getAttribute("data-click-count");
+          document.querySelector("#pCountInfo").innerHTML = `클릭한 횟수는 원(${click1}), 사각(${click2}), 라운드사각(${click3}) 입니다.`
+        })
+      };
+    </script>
+  </body>
+</html>

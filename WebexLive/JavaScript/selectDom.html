@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #wrapper {
+        width: 600px;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid lightseagreen;
+        border-collapse: collapse;
+        text-align: center;
+        padding: 10px;
+      }
+
+      table {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div id="wrapper">
+        <h4>아래의 가격표를 확인해 주세요.</h4>
+        <table>
+          <tr>
+            <th>번호</th>
+            <th>이름</th>
+            <th>가격</th>
+          </tr>
+          <tr class="sale">
+            <td>1</td>
+            <td>족발</td>
+            <td class="price" data-price="10000" discount="1000">10000</td>
+          </tr>
+          <tr class="sale">
+            <td>2</td>
+            <td>회</td>
+            <td class="price soldout" data-price="20000" discount="5000">20000</td>
+          </tr>
+          <tr id="hobulho">
+            <td>3</td>
+            <td>홍어</td>
+            <td class="price" data-price="30000" discount="10000">30000</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      // getElementById
+      console.warn("getElementById");
+      const container = document.getElementById("container");
+      const wrapper = document.getElementById("wrapper");
+      const hobulho = document.getElementById("hobulho");
+
+      console.log(container);
+
+      // getElementByTagName
+      console.warn("getElementByTagName");
+      const table = document.getElementsByTagName("table");
+      console.log(table[0].innerHTML);
+
+      // querySelectorAll
+      console.warn("querySelectorAll");
+      const tr = document.querySelectorAll("tr");
+      console.log(tr); // nodeList []
+      console.dir(tr); // nodeList(0)
+      tr.forEach((el) => console.log(el.innerHTML));
+
+      console.warn("querySelectorAll .price");
+      const price = document.querySelectorAll(".price");
+      price.forEach((el) => console.log(el.innerHTML));
+
+      // getAttribute, attributes
+      console.warn("getAttribute");
+      price.forEach((el) => console.log(el.getAttribute("data-price")));
+
+      console.warn("attrubutes");
+      document.querySelectorAll(".price").forEach((el) => {
+        console.log("price : " + el.attributes["data-price"].value);
+        console.log("discount : " + el.attributes.discount.value);
+      });
+
+      // 부모 조상 찾기
+      console.warn("closest");
+      // 하나 일때
+      const self = document.querySelector(".price.soldout");
+      const parentTr = self.closest("tr");
+      console.log(parentTr);
+
+      // 여러개 일때
+      document.querySelectorAll(".price.soldout").forEach((el) => console.log(el.closest("tr").attributes["class"].value));
+    </script>
+  </body>
+</html>
