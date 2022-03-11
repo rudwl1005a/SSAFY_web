@@ -21,6 +21,11 @@
       table {
         width: 100%;
       }
+
+      /* JavaScript로 css변경하지 말고 class를 추가하는 방식으로 진행하는 것이 좋다
+      .price {
+        color: red;
+      } */
     </style>
   </head>
   <body>
@@ -80,6 +85,7 @@
 
         // textContent
         var boina = document.querySelector("#boina");
+        console.warn("textContent");
         console.log(boina.innerText);
         console.log(boina.textContent);
 
@@ -87,16 +93,45 @@
         var price = document.querySelectorAll(".price");
         price.forEach((el) => (el.style.color = "red"));
 
-        price.forEach(el => {
+        price.forEach((el) => {
           let price = el.getAttribute("data-price");
           let discount = el.getAttribute("discount");
           el.innerHTML = parseInt(price) - parseInt(discount);
-        })
+        });
 
         // soldout된것 closest모두 흐릿하게
-        document.querySelectorAll(".price.soldout").forEach(el => {
-          el.closest("tr").style.opacity="0.5";
-        }) 
+        document.querySelectorAll(".price.soldout").forEach((el) => {
+          el.closest("tr").style.opacity = "0.5";
+        });
+
+        // remove()
+        var lastTr = document.querySelector("#tbody tr:last-child");
+        console.warn("remove()");
+        console.log(lastTr);
+        lastTr.remove();
+
+        // append, prepend, insertBefore
+        var tbody = document.querySelector("#tbody");
+
+        // append - 뒤쪽에 추가
+        var tr = document.createElement("tr");
+        tr.innerHTML = `<tr class="sale">
+                    <td>4</td><td>삼겹살</td><td class="price" data-price="25000" discount="100">25000</td>
+                  </tr>`;
+        tbody.append(tr);
+
+        // prepend - 앞쪽에 추가
+        var tr = document.createElement("tr");
+        tr.innerHTML = `<tr class="sale">
+                    <td>0</td><td>순대국</td><td class="price" data-price="5000" discount="1000">5000</td>
+                  </tr>`;
+        // tbody.prepend(tr); // 제목보다 앞에 추가됨
+
+        // insertBefore -> 특정 element바로 전에 추가
+        var fisrtTdRow = document.querySelector("#tbody tr:nth-child(2)"); // 1-based
+        tbody.insertBefore(tr, fisrtTdRow);
+
+        // 참고 : insertadjacentelement
       }
     </script>
   </body>

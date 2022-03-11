@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #wrapper {
+        width: 300px;
+      }
+
+      #wrapper ul {
+        width: 100%;
+        padding-left: 0px;
+      }
+
+      #wrapper ul li {
+        list-style: none;
+        text-align: center;
+      }
+
+      #wrapper ul li .sub-item li {
+        border: 1px solid lightsalmon;
+        margin: 3px 0px;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      .open {
+        display: block;
+      }
+      .close {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div id="wrapper">
+        <button id="btnMain" data-open="N" data-open-count="0">모두 열기</button>
+        <ul>
+          <li class="item">
+            <button class="btn-sub" data-target-id="#sub-1">아이템 1</button>
+            <ul id="sub-1" class="sub-item close">
+              <li>sub item 1 1</li>
+              <li>sub item 1 2</li>
+            </ul>
+          </li>
+          <li class="item">
+            <button class="btn-sub" data-target-id="#sub-2">아이템 2</button>
+            <ul id="sub-2" class="sub-item close">
+              <li>sub item 2 1</li>
+              <li>sub item 2 2</li>
+            </ul>
+          </li>
+          <li class="item">
+            <button class="btn-sub" data-target-id="#sub-3">아이템 3</button>
+            <ul id="sub-3" class="sub-item close">
+              <li>sub item 3 1</li>
+              <li>sub item 3 2</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      var btnMain;
+
+      window.onload = function () {
+        btnMain = document.querySelector("#btnMain");
+        btnMain.addEventListener("click", function () {
+          var open = this.getAttribute("data-open"); // Y or N
+
+          var innerText = open == "Y" ? "모두 열기" : "모두 닫기";
+          var openCount = open == "Y" ? "0" : "3";
+
+          if (open == "Y") {
+            document.querySelectorAll(".sub-item").forEach(sub => {
+              sub.classList.remove("open");
+              sub.classList.add("close");
+            });
+          } else if (open == "N") {
+            document.querySelectorAll(".sub-item").forEach(sub => {
+              sub.classList.remove("close");
+              sub.classList.add("open");
+            });
+          }
+
+          open = open == "Y" ? "N" : "Y"; // toggle
+
+          this.setAttribute("data-open", open);
+          this.setAttribute("data-open-count", openCount);
+          this.innerText = innerText;
+        });
+
+        // sub-item
+        document.querySelectorAll(".btn-sub").forEach(btn => {
+          btn.addEventListener("click", function () {
+            toggleSub(this.getAttribute("data-target-id"));
+          });
+        });
+      };
+
+      // sub-item 열고 닫기 toggle
+      function toggleSub(targetId) {
+        var target = document.querySelector(targetId); // #도 포함
+        if (target.classList.contains("close")) {
+          target.classList.remove("close");
+          target.classList.add("open");
+          btnMain.setAttribute("data-open-count", parseInt(btnMain.getAttribute("data-open-count")) + 1);
+        } else if (target.classList.contains("open")) {
+          target.classList.remove("open");
+          target.classList.add("close");
+          btnMain.setAttribute("data-open-count", parseInt(btnMain.getAttribute("data-open-count")) - 1);
+        }
+
+        checkMain();
+      }
+
+      // sub-item이 변화 될 때 마다 호출
+      function checkMain(){
+        var openCount = parseInt(btnMain.getAttribute("data-open-count"));
+        if(openCount == 0){
+          btnMain.innerText = "모두 열기";
+          btnMain.setAttribute("data-open", "N");
+        } else if(openCount == 3){
+          btnMain.innerText = "모두 닫기";
+          btnMain.setAttribute("data-open", "Y");
+        }
+      }
+    </script>
+  </body>
+</html>

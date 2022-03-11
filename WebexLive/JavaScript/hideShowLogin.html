@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <title>Document</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      #container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        height: 100%;
+      }
+
+      #nav {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        height: 50px;
+
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        background-color: lightseagreen;
+      }
+
+      #nav img {
+        width: 36px;
+        border-radius: 50%;
+        margin-right: 20px;
+      }
+
+      #nav a {
+        color: darkolivegreen;
+        margin-right: 20px;
+      }
+      #nav a:link {
+        text-decoration: none;
+      }
+
+      #login {
+        border: 1px solid lightgray;
+        padding: 25px;
+      }
+
+      #hello {
+        color: teal;
+      }
+
+      #message {
+        position: fixed;
+
+        bottom: 50px;
+        right: 50px;
+
+        width: 300px;
+        height: 50px;
+
+        padding: 10px;
+        color: white;
+      }
+
+      .open {
+        display: block;
+      }
+
+      .close {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="nav">
+      <img id="navImg" src="img/noProfile.png" />
+      <a id="navLogin" href="#">로그인</a>
+      <a id="navLogout" class="close" href="#">로그아웃</a>
+      <a id="navRegister" href="#">회원가입</a>
+    </div>
+
+    <div id="container">
+      <div id="login" class="close">
+        <h4>Login</h4>
+        <label for="userId">아이디</label>
+        <input id="userId" type="text" />
+        <label for="password">패스워드</label>
+        <input id="password" type="password" />
+        <hr />
+        <button id="btnLogin">로그인</button>
+      </div>
+
+      <h1 id="hello" class="animate__animated animate__swing close">반갑습니다!!!</h1>
+
+      <div id="message"></div>
+    </div>
+
+    <script>
+      window.onload = function () {
+        // login 창
+        document.querySelector("#navLogin").onclick = function () {
+          const login = document.querySelector("#login");
+          login.classList.remove("close");
+          login.classList.add("open");
+        };
+
+        // login button
+        document.querySelector("#btnLogin").onclick = function () {
+          let userId = document.querySelector("#userId").value;
+          let password = document.querySelector("#password").value;
+
+          // 원래는 fetch해야 할 자리
+
+          if (userId == "ssafy" && password == "1234") {
+            showMessage("Y");
+
+            const login = document.querySelector("#login");
+            login.classList.remove("open");
+            login.classList.add("close");
+
+            const navLogin = document.querySelector("#navLogin");
+            navLogin.classList.remove("open");
+            navLogin.classList.add("close");
+
+            const navRegister = document.querySelector("#navRegister");
+            navRegister.classList.remove("open");
+            navRegister.classList.add("close");
+
+            const navLogout = document.querySelector("#navLogout");
+            navLogout.classList.remove("close");
+            navLogout.classList.add("open");
+
+            document.querySelector("#navImg").src = "img/ssafy.png";
+
+            const hello = document.querySelector("#hello");
+            hello.classList.remove("close");
+            hello.classList.add("open");
+          } else {
+            showMessage("N");
+          }
+        };
+
+        document.querySelector("#navLogout").onclick = function () {
+          if (confirm("로그아웃 할까요?")) {
+            const navLogin = document.querySelector("#navLogin");
+            navLogin.classList.remove("close");
+            navLogin.classList.add("open");
+
+            const navRegister = document.querySelector("#navRegister");
+            navRegister.classList.remove("close");
+            navRegister.classList.add("open");
+
+            const navLogout = document.querySelector("#navLogout");
+            navLogout.classList.remove("open");
+            navLogout.classList.add("close");
+
+            document.querySelector("#navImg").src = "img/noProfile.png";
+
+            const hello = document.querySelector("#hello");
+            hello.classList.remove("open");
+            hello.classList.add("close");
+          }
+        };
+      };
+
+      function showMessage(flag) {
+        var message = document.querySelector("#message"); // dic
+        if (flag == "Y") {
+          message.style.backgroundColor = "green";
+          message.innerText = "Login Success!";
+          message.style.display = "block";
+        } else if (flag == "N") {
+          message.style.backgroundColor = "orange";
+          message.innerText = "Login Failed";
+          message.style.display = "block";
+        }
+
+        // 2초 뒤에 사라짐
+        setTimeout(function () {
+          message.style.display = "none";
+        }, 2000);
+      }
+    </script>
+  </body>
+</html>

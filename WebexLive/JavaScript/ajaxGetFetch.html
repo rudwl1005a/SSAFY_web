@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ajax</title>
+    <style>
+      span {
+        padding: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container">
+      <h3>받은 데이터</h3>
+      <div id="receivedData"></div>
+    </div>
+    <hr />
+    <button id="btnGet">가져오기</button>
+    <script>
+      // Server : eclipse WebBasic Project 의 SimpleJsonListServlet ( 필요하면 SimpleJsonObjectServlet 추가로 ) 이용
+      // vs code live server 사용할 경우, servlet 에 response.addHeader("Access-Control-Allow-Origin", "*"); 코드 확인
+      // span style 확인
+
+      // httpRequest.readyState
+      // 0    UNSENT    Client has been created. open() not called yet.
+      // 1    OPENED    open() has been called.
+      // 2    HEADERS_RECEIVED    send() has been called, and headers and status are available.
+      // 3    LOADING    Downloading; responseText holds partial data.
+      // 4    DONE    The operation is complete.
+      var httpRequest = new XMLHttpRequest();
+      httpRequest.onreadystatechange = ajaxCallback; // log; // ajaxCallback;
+
+      window.onload = function () {
+        let btnGet = document.querySelector("#btnGet");
+        btnGet.onclick = function () {
+          getJson();
+        };
+      };
+
+      function getJson() {
+        ///// #3 url, parameter 를 URL 객체로
+        var url = new URL("http://localhost:8080/webBasic/SimpleJsonListServlet");
+        url.searchParams.append("userId", "1111");
+        url.searchParams.append("msg", "안녕하세요?");
+
+        httpRequest.open(
+          "GET",
+          // "http://localhost:8080/webBasic/SimpleJsonListServlet",   ///// #1 parameter 없이
+          // "http://localhost:8080/webBasic/SimpleJsonListServlet?userId=1111&msg=안녕하세요?",  ///// #2 parameter 를 query string 으로
+          url,
+          true //async
+        );
+        httpRequest.send();
+      }
+
+      function log() {
+        console.log(`httpRequest onreadystatechange function called ${httpRequest.readyState}  ${httpRequest.status}`);
+      }
+
+      function ajaxCallback() {
+        if (httpRequest.readyState == XMLHttpRequest.DONE) {
+          if (httpRequest.status == 200) {
+            // #1 받은 데이터 그대로 보여주기
+            // json 을 javascript Array 로 변경 필요
+            console.log(httpRequest.responseText); // json 자체 문자열
+            // document.getElementById("receivedData").innerHTML = httpRequest.responseText;
+
+            // #2 parse to Javascript Array
+            let userList = JSON.parse(httpRequest.responseText); // 명시적으로 parse()
+            let userHtml = "";
+            userList.forEach((user) => {
+              userHtml += `<div><span>${user.userSeq}</span><span>${user.userName}</span><span>${user.userEmail}</span></div>`;
+            });
+            document.getElementById("receivedData").innerHTML = userHtml;
+          } else {
+            alert("문제가 발생했습니다.");
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
