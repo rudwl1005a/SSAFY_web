@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>
+  </head>
+  <style>
+    /*CKEditor Height*/
+    .ck-editor__editable {
+      width: 100%;
+      height: 500px;
+      overflow-y: scroll;
+    }
+  </style>
+  <body>
+    <div id="editor"></div>
+    <button id="btnGet">Get</button>
+    <button id="btnSet">Set</button>
+
+    <script>
+      var CKEditor;
+
+      window.onload = function(){
+        initCKEditor();
+
+        document.querySelector("#btnGet").onclick = function(){
+          console.log(CKEditor.getData());
+        }
+
+        document.querySelector("#btnSet").onclick = function(){
+          let data = `<p>123</p><p><strong>123</strong></p>`;
+          CKEditor.setData(data);
+        }
+      }
+
+      async function initCKEditor(){
+        try{
+          CKEditor = await ClassicEditor.create(document.querySelector('#editor'));
+        } catch(error){
+          console.error(error);
+        }
+      }
+    </script>
+  </body>
+</html>
