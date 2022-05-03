@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="app">
+        {{ text }}
+        {{ text2slice }}
+        {{ text2slice }}
+        {{ text2slice }}
+        {{ text2slice }}
+        <!-- {{ text2slice()) }} <!-- function call 은 error!-->
+        {{ text3 == 'A' ? 'A 입니다.' : 'A가 아닙니다.'}}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        const vue = new Vue({
+            data() {
+                return {
+                    text: 'hello, world',
+                    text2: 'ssafy Vue!',
+                    test3: 'B'
+                }
+            },
+            computed: {
+               text2slice: function(){
+                   // 첫번째만 호출 이후 캐시에 저장, cache 변동이 생기기 전까지는 cached data 사용
+                   console.log("1");
+                   return this.text2.slice(0,4);
+               }
+           }
+
+        });
+
+        vue.$mount('#app');
+    </script>
+
+</body>
+</html>

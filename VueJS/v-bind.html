@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="app">
+        <div v-bind:id="bindId">{{ textId }}</div>
+        <a v-bind:href="bindUrl">{{ textUrl }}</a>
+        <br>
+        <div :data-boardId="boardId">{{ boardId }}</div> <!-- : 으로 생략 가능 -->
+        <img :src="bindSrc" alt="">
+        <br>
+        <input type="text" :value="bindVal">
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        const vue = new Vue({
+            data(){
+                return {
+                    textId: 'v-bind Id',
+                    bindId: '12345',
+
+                    textUrl: 'jsdeliver.net',
+                    bindUrl: 'https://cdn.jsdelivr.net',
+
+                    boardId: '7788',
+
+                    bindSrc: './img/jjangu.png',
+
+                    bindVal: '안녕하세요',
+                }
+            }
+        });
+
+        vue.$mount('#app');
+
+    </script>
+
+</body>
+</html>

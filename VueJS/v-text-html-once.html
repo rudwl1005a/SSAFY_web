@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="app">
+        <div v-text="css"></div>
+        {{ css }}
+        <div v-html="css"></div>
+        <div v-once>{{ css }}</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        let value = {
+            css: '<span style="background-color: lightgray;">회색</span>'
+        }
+        const vue = new Vue({
+            data() {
+                return value; // return object
+            }
+        });
+
+        vue.$mount('#app');
+
+        setTimeout( changeCss, 3000 );
+        
+        function changeCss(){
+            value.css = '<span style="background-color: green;">녹색</span>'
+        }
+    </script>
+
+</body>
+</html>

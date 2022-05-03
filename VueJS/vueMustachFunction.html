@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="app">
+        <!-- {{ aaa }} aaa 는 일반 function X -->
+        {{ bbb() }}
+        {{ bbb() }}
+        {{ bbb() == 'bbb' ? '같습니다' : '다릅니다' }} <!-- 삼항 연산자도 된다 -->
+        {{ bbb().toUpperCase() }} <!-- BBB -->
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+
+        const vue = new Vue({
+            methods: {
+                bbb: function() {
+                    console.log('bbb');
+                    return 'bbb';
+                }
+            }
+        });
+
+        vue.$mount('#app');
+
+        function aaa() {
+            console.log('aaa');
+            return 'aaa';
+        }
+
+        // alert(aaa());
+    </script>
+
+</body>
+</html>

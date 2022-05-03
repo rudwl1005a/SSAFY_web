@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="app">
+        <div v-if="flagIf">V-IF</div>
+        <div v-show="flagShow">V-SHOW</div>
+        <ul>
+            <li v-for="(item, index) in arrayItems" v-bind:key="index">{{ item }}</li>
+        </ul>
+        <ul>
+            <li v-for="(item, index) in objectItems" v-bind:key="index">{{ item.name }} | {{ item.price }}</li>
+        </ul>
+        <ul>
+            <li v-for="(item, index) in filteredItems" v-bind:key="index">{{ item.name }} | {{ item.price }}</li>
+        </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        let studyList = ['Java', 'Spring', 'Boot', 'Vue'];
+        let objectList = [
+            { name: 'Java', price: 2000 },
+            { name: 'Spring', price: 3000 },
+            { name: 'Boot', price: 4000 },
+            { name: 'Vue', price: 5000 },
+        ]
+        const vue = new Vue({
+            data() {
+                return {
+                    flagIf: true,
+                    flagShow: false,
+                    arrayItems: studyList,
+                    objectItems: objectList,
+                }
+            },
+            computed: {
+                filteredItems: function() {
+                    return this.objectItems.filter( el => el.price > 3000 );
+                }
+            },
+        });
+
+        vue.$mount('#app');
+    </script>
+
+</body>
+</html>
