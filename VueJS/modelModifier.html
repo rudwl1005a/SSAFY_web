@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <span>lazy : </span>
+        <input v-model.lazy="lazyText" type="text">
+        {{ lazyText }}
+        <br>
+        <span>number : </span>
+        <input v-model.number="numberText" type="text">
+        {{ numberText }}
+        <br>
+        <span>trim : </span>
+        <input v-model.trim="trimText" type="text">
+        {{ trimText }}
+        <br>
+        <span>lazy&number : </span>
+        <input v-model.lazy.number="lazyNumberText" type="text">
+        {{ lazyNumberText }}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        const vue = new Vue({
+            data(){
+                return {
+                    lazyText: '',
+                    numberText: '',
+                    trimText: '',
+                    lazyNumberText: ''
+                }
+            },
+        });
+
+        vue.$mount('#app');
+    </script>
+</body>
+</html>

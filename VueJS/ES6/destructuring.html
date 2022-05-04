@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+<script>
+    {
+        let numbers = [1, 2, 3, 4];
+        let a = numbers[0];
+        let b = numbers[1];
+        let c = numbers[2];
+        let d = numbers[3];
+        console.log(c);
+    }
+
+    {
+        let numbers = [1, 2, 3, 4];
+        let a, b, c, d;
+        [ a, b, c, d ] = numbers; // destructuring
+        console.log(a);
+    }
+
+    {
+        let numbers = [1, 2, 3, 4];
+        let [ a, b, c, d ] = numbers; // destructuring
+        console.log(b);
+    }
+
+    {
+        let numbers = [1, 2, 3, 4, 5, 6];
+        let [a, b, ...c] = numbers; // 3dot Operator를 중간에 넣으면 안된다
+        console.log(a, b, c);
+    }
+
+    {
+        let text = 'Hello, world!';
+        let [a, b, , , x, ...c] = text; // 'l', 'l' 생략
+        console.log(a, b, x, c);
+    }
+
+    {
+        let [a = 3, b = 4, c] = [1];
+        console.log(a, b, c); // c는 undefined
+    }
+
+    {
+        let a = 'Hello';
+        let b = 'World';
+        [a, b] = [b, a]; // swap
+        console.log(a, b);
+    }
+
+    {
+        let obj = { name: '홍길동', age: 20, phone: '010-1111-1111' };
+        let { phone } = obj;
+        console.log(phone);
+    }
+    
+    console.warn('json');
+    getJson();
+
+    async function getJson() {
+        let reponse = await fetch('./json/fetchResult.json');
+        let data = await reponse.json();
+        console.log(data);
+        let { members } = data;
+        console.log(members); 
+    }
+
+    // shorthand
+    getJson2();
+    async function getJson2() {
+        let reponse = await fetch('./json/fetchResult.json');
+        let { members } = await reponse.json();
+        console.log(members); 
+    }
+</script>
+</body>
+</html>

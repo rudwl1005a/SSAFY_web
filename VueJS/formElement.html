@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <h4>Input Text</h4>
+        <input v-model="inputText">
+        <p>inputText: {{ inputText }}</p>
+
+        <h4>Textarea</h4>
+        <textarea v-model="textareaText"></textarea>
+        <p style="white-space: pre-line">textareaText : {{ textareaText }}</p>
+
+        <h4>Checkbox - Single</h4>
+        <input type="checkbox" id="checkbox" v-model="checkboxValue">
+        <label for="checkbox">checkboxValue : {{ checkboxValue }}</label>
+
+        <h4>Checkbox - Multiple</h4>
+        <input type="checkbox" id="java" value="J" v-model="checkboxValueList">
+        <label for="java">Java</label>
+        <input type="checkbox" id="spring" value="S" v-model="checkboxValueList">
+        <label for="spring">Spring</label>
+        <input type="checkbox" id="vue" value="V" v-model="checkboxValueList">
+        <label for="vue">Vue</label>
+        <br>
+        <span>Checkbox Value List : {{ checkboxValueList }}</span>
+
+        <h4>Radio</h4>
+        <input type="radio" id="football" value="F" v-model="radioValue">
+        <label for="football">football</label>
+        <br>
+        <input type="radio" id="baseball" value="B" v-model="radioValue">
+        <label for="baseball">baseball</label>
+        <br>
+        <span>radioValue: {{ radioValue }}</span>
+
+        <h4>Select - Single</h4>
+        <select v-model="selectValue">
+            <option disabled value="">Select Your Hobby</option>
+            <option value="C">Camping</option>
+            <option value="D">Drawing</option>
+            <option value="S">Singing</option>
+        </select>
+        <span>selectValue: {{ selectValue }}</span>
+
+        <h4>Select - Multiple</h4>
+        <select v-model="selectValueList" multiple>
+            <option disabled value="">Select Your Hobby</option>
+            <option value="C">Camping</option>
+            <option value="D">Drawing</option>
+            <option value="S">Singing</option>
+        </select>
+        <span>selectValueList: {{ selectValueList }}</span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        const vue = new Vue({
+            data(){
+                return {
+                    inputText: '12345',
+                    textareaText: '안녕하세요',
+                    checkboxValue: false,
+                    checkboxValueList: ['S', 'J'],
+                    radioValue: 'F',
+                    selectValue: 'D',
+                    selectValueList: ['C', 'S']
+                }
+            },
+        });
+
+        vue.$mount('#app');
+    </script>
+</body>
+</html>

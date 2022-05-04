@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+<script>
+    function multiply(a, b){
+        return a*b;
+    }
+    
+    console.log(multiply(5, 2)); // 10
+    console.log(multiply(5)); // NaN
+    
+    function multiply2(a, b = 2){
+        return a*b;
+    }
+    
+    console.log(multiply2(5, 4)) // 20
+    console.log(multiply2(5)); // 10
+
+    function sayHello(name, message, another = '반갑습니다. ' + name) {
+        console.log(name + " " + message + " " + another);    
+    }
+
+    sayHello('길동님', '안녕하세요', '잘 지내시죠?');
+    sayHello('길동님', '안녕하세요');
+</script>
+</body>
+</html>

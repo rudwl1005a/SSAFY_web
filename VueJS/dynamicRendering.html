@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <h3>Select 만들기</h3>
+        <select v-model="selectValue" @change="onSelect">
+            <option v-for="(option, index) in selectOptionList" :key="index" :value="option.value">
+                {{ option.text }}
+            </option>
+        </select>
+        {{ selectValue }}
+        <hr>
+        <h3>Table 만들기</h3>
+        <table>
+            <thead>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+            </thead>
+            <tbody>
+                <tr v-for="(item, i) in trList" :key="i" style="cursor: pointer"
+                    @click="trClick(item.no)">
+                    <td>{{ item.no }}</td>
+                    <td>{{ item.title }}</td>
+                    <td>{{ item.writer }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        let itemList = [
+            { no:1, title: 'Java', writer: 'ssafy1' },
+            { no:2, title: 'Spring', writer: 'ssafy2' },
+            { no:3, title: 'Vue', writer: 'ssafy3' },
+        ];
+
+        const vue = new Vue({
+            data(){
+                return {
+                    selectOptionList: [
+                        { text: 'Camping', value: 'C' },
+                        { text: 'Drawing', value: 'D' },
+                        { text: 'Singing', value: 'S' },
+                    ],
+                    trList: itemList,
+                    selectValue: 'D',
+                }
+            },
+            methods: {
+                onSelect() {
+                    alert(this.selectValue);
+                },
+                trClick(no) {
+                    alert(no);
+                }
+            }
+        });
+
+        vue.$mount('#app');
+    </script>
+</body>
+</html>

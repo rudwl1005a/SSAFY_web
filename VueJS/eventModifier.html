@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <form target="_blank" action="http://naver.com">
+            <input v-model="inputText1" type="text">
+            <button type="submit" @click="callsubmit">전송</button>
+        </form>
+
+        <form @submit.prevent="callsubmit2" target="_blank" action="http://naver.com" id="form1">
+            <input v-model="inputText2" type="text">
+            <button type="submit">전송</button>
+        </form>
+
+        <form @submit.prevent="callsubmit3" id="form2">
+            <input v-model="inputText3" type="text">
+            <button type="submit">전송</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        const vue = new Vue({
+            data(){
+                return {
+                    inputText1: '',
+                    inputText2: '',
+                    inputText3: '',
+                }
+            },
+            methods: {
+                callsubmit(e) {
+                    console.log('callsubmit');
+                    if (this.inputText1 == ''){
+                        e.preventDefault();
+                    }
+                },
+                callsubmit2(e) {
+                    console.log('callsubmit2');
+                    if (this.inputText2 != ''){
+                        document.querySelector("#form1").submit();
+                    } 
+                },
+                callsubmit3(e) {
+                    console.log('callsubmit3');
+                    if (this.inputText3 != ''){
+                        let form2 = document.querySelector("#form2");
+                        form2.target = "_blank";
+                        form2.action = "http://www.naver.com",
+                        form2.submit();
+                    }
+                },
+            }
+        });
+
+        vue.$mount('#app');
+    </script>
+</body>
+</html>

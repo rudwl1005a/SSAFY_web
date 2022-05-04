@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+
+<script>
+    class MyClass {
+        // constructor(id, name, email){
+        //     this.id = id;
+        //     this.name = name;
+        //     this.email = email;
+        // }
+
+        // Uncaught SyntaxError: A class may only have one constructor 
+        // 생성자 두개 이상 사용X
+        // constructor(id, name, email, phone){
+        //     this.id = id;
+        //     this.name = name;
+        //     this.email = email;
+        //     this.phone = phone;
+        // }
+
+        constructor(obj){
+            this.id = obj.id;
+            this.name = obj.name;
+            this.email = obj.email;
+            this.phone = obj.phone;
+        }
+
+        aboutMe(){
+            let message = this.id + " " + this.name + " " + this.email + " " + this.phone;
+            console.log(message);
+
+            if (this.ui == undefined){
+                console.log("ui is undefined");
+            } else {
+                this.ui.innerText = message;
+            }
+        }
+
+        mount(ui){
+            this.ui = document.querySelector(ui);
+            return this;
+            // return this 안해주면 -> Uncaught TypeError: Cannot read properties of undefined (reading 'aboutMe')
+        }
+    }
+
+    // let myClass = new MyClass(111, '홍길동', 'hong@gildong.com');
+    // myClass.aboutMe();
+
+    // let myClass2 = new MyClass(111, '홍길동', 'hong@gildong.com', '010-1234-5678');
+    // myClass2.aboutMe();
+
+    let myClass = new MyClass({
+        id: 111,
+        name: '홍길동',
+        email: 'hong@gildong.com',
+        phone: '010-1234-5678'
+    }).mount('#app').aboutMe();
+
+</script>
+</body>
+</html>

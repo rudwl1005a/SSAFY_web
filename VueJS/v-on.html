@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <h3>Click</h3>
+        <button v-on:click="count += 1">Count++ Click</button>
+        <p>Click Count : {{ count }}</p>
+        <button @click="changeHello()">helloMessage click</button>
+        <p>helloMessage : {{ helloMessage }}</p>
+
+        <button @click="calcCount()">countMessage click</button>
+        <p>count Message : {{ countMessage }}</p>
+
+        <h3>Mouseover</h3>
+        <div v-on:mouseover="mouseMessage='╰(*°▽°*)╯ Hi!'"
+             v-on:mouseout="mouseMessage='마우스를 올려보세요'">
+            {{ mouseMessage }}
+        </div>
+
+        <h3>Key</h3>
+        <input v-on:keyup="showKey" type="text">
+        <p>현재 key : {{ keyMessage }}</p>
+        <input v-on:keydown.13="enterKey" type="text">
+        <p>{{ enterMessage }}</p>
+        <input v-on:keydown="multiKey" type="text">
+        <p>{{ multiKeyMessage }}</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        const vue = new Vue({
+            data(){
+                return {
+                    count: 0,
+                    helloMessage: 'Hi',
+                    countMessage: '0', 
+                    mouseMessage: '마우스를 올려보세요',
+                    keyMessage: '',
+                    enterMessage: '',
+                    multiKeyMessage: '',
+                }
+            },
+            methods: {
+                changeHello() {
+                    this.helloMessage = '안녕하세요!';
+                },
+                calcCount() {
+                    this.countMessage = this.count + '번 클릭했습니다.';
+                },
+                showKey(e) {
+                    this.keyMessage = e.key + ' ' + e.keyCode;
+                },
+                enterKey(e) {
+                    this.enterMessage = 'Enter Click!';
+                },
+                multiKey(e) {
+                    e.preventDefault();
+
+                    if(e.keyCode == 86 && e.ctrlKey) { // ctrl + v
+                        this.multiKeyMessage = 'Ctrl+V : 붙여넣기되었습니다';
+                    } else if(e.keyCode == 67 && e.ctrlKey){
+                        this.multiKeyMessage = 'Ctrl+C : 복사되었습니다';
+                    } else if(e.keyCode == 46 && e.ctrlKey && e.shiftKey){
+                        this.multiKeyMessage = 'Ctrl+Shift+delete : 쿠키 삭제';
+                    } else if(e.keyCode == 46 && e.shiftKey){
+                        this.multiKeyMessage = 'Shift+delete';
+                    } else if(e.keyCode == 116 && e.altKey){
+                        this.multiKeyMessage = 'Alt+F5';
+                    }
+                }
+            }
+        });
+
+        vue.$mount('#app');
+
+    </script>
+</body>
+</html>

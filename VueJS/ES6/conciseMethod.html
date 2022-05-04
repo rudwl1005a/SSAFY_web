@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+<script>
+    let name = '홍길동';
+    let phone = '010-0000-0000';
+    let age = 30;
+
+    let person = { 
+        name, phone, age,
+        // 기본 문법
+        // getInfo: function(){
+        //     console.log(this.name, this.phone, this.age);
+        // }
+        // -> concise Method
+        getInfo(){ // : function 생략
+            console.log(this.name, this.phone, this.age);
+        }
+    }
+
+    person.getInfo();
+</script>
+</body>
+</html>
