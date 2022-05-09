@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="app">
+        <h2><strong> 내가 가진 돈 : {{ money }} 원 </strong></h2>
+        <ul>
+            <h3>메뉴판</h3>
+            <li><child-component1 v-on:call-parent="fromChild" :price = "2000" v-bind:parent-money = "money"></child-component1></li>
+            <br>
+            <li><child-component2 v-on:call-parent="fromChild" :price = "5000" v-bind:parent-money = "money"></child-component2></li>
+        </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+    
+        Vue.component(
+            'child-component1',
+            {
+                props: ['price', 'parentMoney'],
+                template:
+                    `<div>
+                        <div> 핫도그 </div>
+                        <p> 가격 {{ price }}원
+                        <p> 살 수 있는 개수 : {{ Math.floor(parentMoney/price) }} 개 </p>
+                        <button type="button" @click="eventBtnClick">buy</button>
+                    </div>`,
+                data: function() {
+                    return {
+                        
+                    }
+                },
+                methods: {
+                    eventBtnClick() {
+                        this.$emit('call-parent', this.price);
+                    }
+                }
+            }
+        );
+        Vue.component(
+            'child-component2',
+            {
+                props: ['price', 'parentMoney'],
+                template:
+                    `<div>
+                        <div> 햄버거 </div>
+                        <p> 가격 {{ price }}원
+                        <p> 살 수 있는 개수 : {{ Math.floor(parentMoney/price) }} 개 </p>
+                        <button type="button" @click="eventBtnClick">buy</button>
+                    </div>`,
+                data: function() {
+                    return {
+                        
+                    }
+                },
+                methods: {
+                    eventBtnClick() {
+                        this.$emit('call-parent', this.price);
+                    }
+                }
+            }
+        );
+
+        const vue = new Vue({
+            data() {
+                return {
+                    money: 20000,
+                }
+            },
+            methods: {
+                fromChild(price) {
+                    this.money -= price;
+                    if(this.money < 0){
+                        alert('살 수 없습니다.')
+                        this.money += price;
+                    }
+                }
+            }
+        });
+
+        vue.$mount('#app');
+
+    </script>
+
+</body>
+</html>
