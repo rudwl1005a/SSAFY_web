@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="app">
+        <div>{{ text }}</div>
+        <div>{{ reversedText() }}</div>
+        <div>{{ reversedText() }}</div>
+        <div>{{ reversedText() }}</div>
+        <button @click="changeText">click</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        const vue = new Vue({
+            data() {
+                return {
+                    text: '안녕하세요, Vue'
+                }
+            },
+            methods: {
+                reversedText() {
+                    console.log('reversedText');
+                    return this.text.split('').reverse().join('');
+                },
+                changeText() {
+                    this.text = 'Hello, Vue';
+                }
+            },
+            updated() {
+                console.log('updated');
+            }
+        });
+
+        vue.$mount('#app');
+
+    </script>
+
+</body>
+</html>

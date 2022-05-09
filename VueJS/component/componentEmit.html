@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="app">
+        <child-component v-on:call-parent="fromChild" 
+            my-data = "내 데이터" v-bind:parent-data = "message"></child-component>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+    
+        Vue.component(
+            'child-component',
+            {
+                props: ['myData', 'parentData'], // props에 추가하는 것을 잊지 말자
+                template:
+                    `<div>
+                        <p> {{ myValue }} | {{ myData }} | {{ parentData }} </p>
+                        <button type="button" @click="eventBtnClick">send</button>
+                    </div>`,
+                data: function() {
+                    return {
+                        myValue: 200
+                    }
+                },
+                methods: {
+                    eventBtnClick() {
+                        // alert('1');
+                        this.$emit('call-parent', this.myValue); // parnet와의 약속
+                    }
+                }
+            }
+        );
+
+        const vue = new Vue({
+            data() {
+                return {
+                    message: '메세지 from 부모 component'
+                }
+            },
+            methods: {
+                fromChild(myValue) {
+                    alert(myValue);
+                }
+            }
+        });
+
+        vue.$mount('#app');
+
+    </script>
+
+</body>
+</html>

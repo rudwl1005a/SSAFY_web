@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="app">
+        <div-component></div-component>
+        <table-component></table-component>
+    </div>
+
+    <!-- html template -->
+    <template id="div-template">
+        <div>HTML div template!!</div>
+    </template>
+
+    <template id="table-template">
+        <table>
+            <tr><td>취미1</td><td>코딩</td><td>Bad!</td></tr>
+            <tr><td>취미2</td><td>운동</td><td>Good!</td></tr>
+            <tr><td>취미3</td><td>음주</td><td>Bad!</td></tr>
+        </table>
+    </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+    
+        Vue.component(
+            'div-component',
+            {
+                template: '#div-template'
+            }
+        );
+        Vue.component(
+            'table-component',
+            {
+                template: '#table-template'
+            }
+        );
+
+        const vue = new Vue({
+            data() {
+                return {
+
+                }
+            },
+        });
+
+        vue.$mount('#app');
+
+    </script>
+
+</body>
+</html>
