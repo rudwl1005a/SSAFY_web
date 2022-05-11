@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="app">
+        <h4>Vue Router</h4>
+        <p>
+            <router-link to="/main">Main Component</router-link>
+            <router-link to="/login">Login Component</router-link>
+            <router-link to="/board">Board Component</router-link>
+        </p>
+        <router-view></router-view>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router@3.5.3/dist/vue-router.js"></script>
+    <script>
+        let MainComponent = {
+            template: '<div>Main</div>'
+        };
+
+        let LoginComponent = {
+            template: '<div>Login</div>'
+        };
+
+        let BoardComponent = {
+            template: '<div>Board</div>'
+        };
+
+        const routes = [
+            { path: '/main', component: MainComponent },
+            { path: '/login', component: LoginComponent },
+            { path: '/board', component: BoardComponent }
+        ];
+
+        const router = new VueRouter({
+            routes // shorthand (routes: routes)
+        });
+
+        // mount
+        const vue = new Vue({
+            // el: '#app', // by parameter
+            router // shorthand (router: router)
+        }).$mount('#app');
+
+        // vue.$mount('#app'); // by $mount
+    </script>
+
+</body>
+</html>
