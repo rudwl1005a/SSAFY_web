@@ -56,24 +56,46 @@ export default {
         };
     },
     methods: {
+        initUI() {
+            this.title = '';
+            this.CKEditor.setData('');
+            this.attachFile = false;
+            this.fileList = [];
+            document.querySelector('#inputFileUploadInsert').value = '';
+        },
         changeFile(fileEvent) {
             // 첨부 파일의 목록
-            const fileArray = fileEvent.target.files;
-            let cnt = fileArray.length;
-            for (let i = 0; i < cnt; i++) {
-                this.fileList.push(URL.createObjectURL(fileArray[i]));
-            }
+            this.fileList = [];
+
+            /* Array로 변환하여 forEach사용 */
+            const fileArray = Array.from(fileEvent.target.files);
+            fileArray.forEach(file => this.fileList.push(URL.createObjectURL(file)));
+
+            /* for문 사용 */
+            // const fileArray = fileEvent.target.files;
+            // let cnt = fileArray.length;
+            // for (let i = 0; i < cnt; i++) {
+            //     this.fileList.push(URL.createObjectURL(fileArray[i]));
+            // }
         },
         async boardInsert() {
             let formData = new FormData();
             formData.append("title", this.title);
             formData.append("content", this.CKEditor.getData());
 
-            let attachFiles = document.querySelector("#inputFileUploadInsert");
-            let cnt = attachFiles.files.length;
-            for (let i = 0; i < cnt; i++) {
-                formData.append("file", attachFiles.files[i]);
+            /* Array로 변환하여 forEach사용 */
+            let attachFiles = document.querySelector("#inputFileUploadInsert").files;
+            if (attachFiles.length > 0) {
+                const fileArray  = Array.from(attachFiles);
+                fileArray.forEach(file => formData.append("file", file));
             }
+
+            /* for문 사용 */
+            // let attachFiles = document.querySelector("#inputFileUploadInsert");
+            // let cnt = attachFiles.files.length;
+            // for (let i = 0; i < cnt; i++) {
+            //     formData.append("file", attachFiles.files[i]);
+            // }
 
             let options = {
                 headers: {'Content-type': 'multipart/form-data'}
@@ -105,6 +127,13 @@ export default {
         } catch (error) {
             console.error(error);
         }
+
+        // this는 모달창, show.bs.modal는 모달이 만들어졌을 때 실행
+        let $this = this;
+        this.$el.addEventListener('show.bs.modal', function(){
+            // $this는 function
+            $this.initUI();
+        });
     },
 };
 </script>

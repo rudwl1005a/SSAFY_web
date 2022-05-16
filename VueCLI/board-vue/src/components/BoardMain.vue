@@ -1,10 +1,10 @@
 <template>
     <div class="container mt-3">
-        <h4 class="text-center">게시판 - Main</h4>       
-    
+        <h4 class="text-center">게시판 - Main</h4>
+
         <div class="input-group mb-3">
-        <input v-model="searchWord" @keydown.enter="boardList" type="text" class="form-control" placeholder="Search">
-        <button @click="boardList" class="btn btn-success" type="button">Search</button>
+            <input v-model="searchWord" @keydown.enter="boardList" type="text" class="form-control" placeholder="Search" />
+            <button @click="boardList" class="btn btn-success" type="button">Search</button>
         </div>
 
         <table class="table table-hover">
@@ -18,27 +18,33 @@
                 </tr>
             </thead>
             <tbody>
-                <tr style="cursor:pointer" v-for="(board, index) in list" :key="index">
+                <tr style="cursor: pointer" v-for="(board, index) in list" :key="index" @click="boardDetail(board.boardId)">
                     <td>{{ board.boardId }}</td>
                     <td>{{ board.title }}</td>
                     <td>{{ board.userName }}</td>
-                    <td>{{ board.regDt.date | makeDateStr('.') }}</td>
+                    <td>{{ board.regDt.date | makeDateStr(".") }}</td>
                     <td>{{ board.readCount }}</td>
                 </tr>
             </tbody>
         </table>
-    
-        <pagination
-            :listRowCount="listRowCount"
-            :pageLinkCount="pageLinkCount"
-            :currentPageIndex="currentPageIndex"
-            :totalListItemCount="totalListItemCount"
-            v-on:call-parent-move-page="movePage" >
+
+        <pagination 
+            :listRowCount="listRowCount" 
+            :pageLinkCount="pageLinkCount" 
+            :currentPageIndex="currentPageIndex" 
+            :totalListItemCount="totalListItemCount" 
+            v-on:call-parent-move-page="movePage"> 
         </pagination>
 
         <button class="btn btn-sm btn-primary" @click="showInsertModal">글쓰기</button>
 
         <insert-modal v-on:call-parent-insert="closeAfterInsert"></insert-modal>
+        <detail-modal 
+            v-bind:board="board" 
+            v-on:call-parent-change-to-update="changeToUpdate" 
+            v-on:call-parent-change-to-delete="changeToDelete"> 
+        </detail-modal>
+        <update-modal v-bind:board="board" v-on:call-parent-update="closeAfterUpdate"></update-modal>
     </div>
 </template>
 
@@ -46,18 +52,21 @@
 import http from '@/common/axios.js'
 import Pagination from '@/components/Pagination.vue'
 import InsertModal from '@/components/modals/InsertModal.vue'
+import DetailModal from '@/components/modals/DetailModal.vue'
+import UpdateModal from '@/components/modals/UpdateModal.vue'
+import util from '@/common/util.js'
 
 import { Modal } from 'bootstrap'
 
 export default {
-    components: { Pagination, InsertModal },
+    components: { Pagination, InsertModal, DetailModal, UpdateModal },
     data() {
         return {
             // modal
             insertModal: null,
             detailModal: null,
             updateModal: null,
-            
+
             // list
             list: [],
             limit: 10,
@@ -69,7 +78,7 @@ export default {
             pageLinkCount: 10,
             currentPageIndex: 1,
             totalListItemCount: 0,
-    
+
             // 게시글 한개
             board: {
                 boardId: 0,
@@ -117,6 +126,63 @@ export default {
         closeAfterInsert() {
             this.insertModal.hide();
             this.boardList();
+        },
+        async boardDetail(boardId) {
+            try {
+                let response = await http.get('/boards/' + boardId);
+                let { data } = response;
+                console.log(data);
+
+                if (data.result == 'login'){
+                    this.$router.push("/login");
+                } else {
+                    let { dto } = data;
+                    this.board.boardId = dto.boardId;
+                    this.board.title = dto.title;
+                    this.board.content= dto.content;
+                    this.board.userName= dto.userName;
+                    this.board.readCount = dto.readCount;
+                    this.board.fileList = dto.fileList;
+                    this.board.sameUser = dto.sameUser;
+
+                    let { regDt } = dto;
+                    this.board.regDate= util.makeDateStr(regDt.date.year, regDt.date.month, regDt.date.day, '.');
+                    this.board.regTime= util.makeTimeStr(regDt.time.hour, regDt.time.minute, regDt.time.second, ':');
+
+                    this.detailModal.show();
+                }
+            } catch(error) {
+                console.error(error);
+            }
+        },
+        changeToUpdate(){
+            this.detailModal.hide();
+            this.updateModal.show();
+        },
+        closeAfterUpdate() {
+            this.updateModal.hide();
+            this.boardList();
+        },
+        async changeToDelete(boardId){
+            try {
+                let response = await http.delete('/boards/' + boardId);
+                let { data } = response;
+                console.log(data);
+
+                if(data.result == 'login'){
+                    this.$router.push("/login");
+                } else {
+                    this.list = data.list;
+                    this.totalListItemCount = data.count;
+                    this.$alertify.success('글이 삭제되었습니다.');
+                }
+            } catch (error) {
+                console.error(error);
+                this.$alertify.error('글 삭제 과정에 문제가 생겼습니다.');
+            }
+
+            this.detailModal.hide();
+            this.boardList();
         }
     },
     created() {
@@ -124,6 +190,8 @@ export default {
     },
     mounted() {
         this.insertModal = new Modal(document.querySelector('#insertModal'));
+        this.detailModal = new Modal(document.querySelector('#detailModal'));
+        this.updateModal = new Modal(document.querySelector('#updateModal'));
     },
     filters: {
         makeDateStr(date, separator) {
