@@ -1,9 +1,11 @@
 <template>
-    <div class="container mt-3">
+    <div class="container">
         <h4 class="text-center">게시판 - Main</h4>
 
         <div class="input-group mb-3">
-            <input v-model="searchWord" @keydown.enter="boardList" type="text" class="form-control" placeholder="Search" />
+            <!-- store 사용 -->
+            <!-- <input v-model="searchWord" @keydown.enter="boardList" type="text" class="form-control"> -->
+            <input v-model="$store.state.board.searchWord" @keydown.enter="boardList" type="text" class="form-control" />
             <button @click="boardList" class="btn btn-success" type="button">Search</button>
         </div>
 
@@ -18,7 +20,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr style="cursor: pointer" v-for="(board, index) in list" :key="index" @click="boardDetail(board.boardId)">
+                <!-- store 사용 -->
+
+                <!-- 직접 store 에 접근해도 된다. -->
+                <!-- <tr v-for="(board, index) in $store.state.board.list" @click="boardDetail(board.boardId)" v-bind:key="index"> -->
+
+                <!-- getters 를 이용하는 코드 -->
+                <!-- computed - listGetters - getBoardList  -->
+                <tr style="cursor: pointer" v-for="(board, index) in listGetters" @click="boardDetail(board.boardId)" v-bind:key="index">
                     <td>{{ board.boardId }}</td>
                     <td>{{ board.title }}</td>
                     <td>{{ board.userName }}</td>
@@ -28,38 +37,47 @@
             </tbody>
         </table>
 
+        <!-- props 사용 X -->
+        <!-- 
         <pagination 
-            :listRowCount="listRowCount" 
-            :pageLinkCount="pageLinkCount" 
-            :currentPageIndex="currentPageIndex" 
-            :totalListItemCount="totalListItemCount" 
-            v-on:call-parent-move-page="movePage"> 
+            v-bind:listRowCount="listRowCount"
+            v-bind:pageLinkCount="pageLinkCount"
+            v-bind:currentPageIndex="currentPageIndex"
+            v-bind:totalListItemCount="totalListItemCount"
+            v-on:call-parent="movePage">
         </pagination>
+        -->
+        <pagination v-on:call-parent="movePage"></pagination>
 
         <button class="btn btn-sm btn-primary" @click="showInsertModal">글쓰기</button>
 
         <insert-modal v-on:call-parent-insert="closeAfterInsert"></insert-modal>
-        <detail-modal 
-            v-bind:board="board" 
-            v-on:call-parent-change-to-update="changeToUpdate" 
-            v-on:call-parent-change-to-delete="changeToDelete"> 
-        </detail-modal>
-        <update-modal v-bind:board="board" v-on:call-parent-update="closeAfterUpdate"></update-modal>
+        <!-- props 제거 -->
+        <detail-modal v-on:call-parent-change-to-update="changeToUpdate" v-on:call-parent-change-to-delete="changeToDelete"></detail-modal>
+        <update-modal v-on:call-parent-update="closeAfterUpdate"></update-modal>
     </div>
 </template>
 
 <script>
-import http from '@/common/axios.js'
-import Pagination from '@/components/Pagination.vue'
-import InsertModal from '@/components/modals/InsertModal.vue'
-import DetailModal from '@/components/modals/DetailModal.vue'
-import UpdateModal from '@/components/modals/UpdateModal.vue'
-import util from '@/common/util.js'
+import InsertModal from "./modals/InsertModal.vue";
+import DetailModal from "./modals/DetailModal.vue";
+import UpdateModal from "./modals/UpdateModal.vue";
 
-import { Modal } from 'bootstrap'
+import { Modal } from "bootstrap";
+
+import http from "@/common/axios.js";
+import util from "@/common/util.js";
+
+import Pagination from "./Pagination.vue";
+
+// 삭제
+import Vue from "vue";
+import VueAlertify from "vue-alertify";
+Vue.use(VueAlertify);
 
 export default {
-    components: { Pagination, InsertModal, DetailModal, UpdateModal },
+    name: "BoardMain",
+    components: { InsertModal, DetailModal, UpdateModal, Pagination },
     data() {
         return {
             // modal
@@ -67,161 +85,220 @@ export default {
             detailModal: null,
             updateModal: null,
 
-            // list
-            list: [],
-            limit: 10,
-            offset: 0,
-            searchWord: '',
+            // 아래 data 사용 X
+            // // list
+            // list: [],
+            // limit: 10,
+            // offset: 0,
+            // searchWord: '',
 
-            // pagination
-            listRowCount: 10,
-            pageLinkCount: 10,
-            currentPageIndex: 1,
-            totalListItemCount: 0,
+            // // pagination
+            // listRowCount: 10,
+            // pageLinkCount: 10,
+            // currentPageIndex: 1,
 
-            // 게시글 한개
-            board: {
-                boardId: 0,
-                title: '',
-                content: '',
-                userName: '',
-                regDate: '',
-                regTime: '',
-                readCount: 0,
-                fileList: [],
-                sameUser: false
-            }
-        }
+            // totalListItemCount: 0,
+
+            // // detail
+            // boardId: 0,
+
+            // // update
+            // board: {
+            //   boardId: 0,
+            //   title: '',
+            //   content: '',
+            //   fileList: []
+            // }
+        };
+    },
+    computed: {
+        // gttters 이용
+        listGetters() {
+            return this.$store.getters.getBoardList; // no getBoardList()
+        },
     },
     methods: {
-        async boardList() {
-            let params = {
-                limit: this.limit,
-                offset: this.offset,
-                searchWord: this.searchWord,
-            }
-            try {
-                let response = await http.get('/boards', { params }); // params: params -> shorthand property
-                let { data } = response;
-                console.log(data);
-
-                if(data.result == 'login'){
-                    this.$router.push("/login");
-                } else {
-                    this.list = data.list;
-                    this.totalListItemCount = data.count;
-                }
-            } catch (error) {
-                console.error(error);
-            }
+        // list
+        // store actions 에 구현
+        // 가능한 한 가지 방법
+        boardList() {
+            this.$store.dispatch("boardList");
         },
+
+        // pagination
         movePage(pageIndex) {
-            this.offset = (pageIndex - 1) * this.listRowCount;
-            this.currentPageIndex = pageIndex;
+            console.log("BoardMainVue : movePage : pageIndex : " + pageIndex);
+
+            // store commit 으로 변경
+            // this.offset = (pageIndex - 1) * this.listRowCount;
+            // this.currentPageIndex = pageIndex;
+            this.$store.commit("SET_BOARD_MOVE_PAGE", pageIndex);
+
             this.boardList();
         },
+
+        // util
+        makeDateStr: util.makeDateStr,
+
+        // insert
         showInsertModal() {
             this.insertModal.show();
         },
+
         closeAfterInsert() {
             this.insertModal.hide();
             this.boardList();
         },
+
+        // detail
         async boardDetail(boardId) {
+            // store 변경
+            // this.boardId = boardId;
+            // this.$store.commit('mutateSetBoardBoardId', boardId);
+
             try {
-                let response = await http.get('/boards/' + boardId);
-                let { data } = response;
+                let { data } = await http.get("/boards/" + boardId);
                 console.log(data);
 
-                if (data.result == 'login'){
-                    this.$router.push("/login");
+                if (data.result == "login") {
+                    this.doLogout(); // this.$router.push("/login"); 에서 변경
                 } else {
-                    // updateModal의 watch 호출 안됨 -> property만 바뀌기 때문에
-                    // let { dto } = data;
-                    // this.board.boardId = dto.boardId;
-                    // this.board.title = dto.title;
-                    // this.board.content= dto.content;
-                    // this.board.userName= dto.userName;
-                    // this.board.readCount = dto.readCount;
-                    // this.board.fileList = dto.fileList;
-                    // this.board.sameUser = dto.sameUser;
-
-                    // let { regDt } = dto;
-                    // this.board.regDate= util.makeDateStr(regDt.date.year, regDt.date.month, regDt.date.day, '.');
-                    // this.board.regTime= util.makeTimeStr(regDt.time.hour, regDt.time.minute, regDt.time.second, ':');
-
-                    let { regDt } = data.dto; // destructuring
-                    let boardNew = {
-                        regDate: util.makeDateStr(regDt.date.year, regDt.date.month, regDt.date.day, '.'),
-                        regTime: util.makeTimeStr(regDt.time.hour, regDt.time.minute, regDt.time.second, ':'),
-                        ...data.dto
-                    }; // 3dot spread operator
-
-                    this.board = boardNew; // watch 호출
+                    let { dto } = data;
+                    this.$store.commit("SET_BOARD_DETAIL", dto);
 
                     this.detailModal.show();
                 }
-            } catch(error) {
-                console.error(error);
+            } catch (error) {
+                console.log("BoardMainVue: error : ");
+                console.log(error);
             }
+            // http.get(
+            // '/boards/' + boardId, // props variable
+            // )
+            // .then(({ data }) => {
+            //   console.log("DetailModalVue: data : ");
+            //   console.log(data);
+
+            //   if( data.result == 'login' ){
+            //     this.doLogout();
+            //   }else{
+            //     this.$store.commit(
+            //       'SET_BOARD_DETAIL',
+            //       {
+            //         boardId: data.dto.boardId,
+            //         title: data.dto.title,
+            //         content: data.dto.content,
+            //         userName: data.dto.userName,
+            //         regDt: this.makeDateStr(data.dto.regDt.date.year, data.dto.regDt.date.month, data.dto.regDt.date.day, '.'),
+            //         fileList: data.dto.fileList,
+            //         sameUser: data.dto.sameUser, // not data.dto.sameUser
+            //       }
+            //     );
+
+            //     this.detailModal.show();
+            //   }
+            // })
+            // .catch((error) => {
+            //   console.log("DetailModalVue: error ");
+            //   console.log(error);
+            // });
         },
-        changeToUpdate(){
+
+        // update
+        // Detail 에서 board data 를 직접 변경
+        // changeToUpdate( board ){
+        //   this.board = board;
+        //   this.detailModal.hide();
+        //   this.updateModal.show();
+        // },
+        changeToUpdate() {
+            // board parameter 필요 없음.
+            // data update 사용 X
+            // this.board = board;
             this.detailModal.hide();
             this.updateModal.show();
         },
+
         closeAfterUpdate() {
             this.updateModal.hide();
             this.boardList();
         },
-        changeToDelete(){
+
+        // delete
+        // $emit board 사용 X
+        // changeToDelete(board){
+        changeToDelete() {
             this.detailModal.hide();
 
             var $this = this; // alertify.confirm-function()에서 this 는 alertify 객체
             this.$alertify.confirmWithTitle(
-                '삭제 확인',
-                '이 글을 삭제하시겠습니까?',
-                function(){
+                "삭제 확인",
+                "이 글을 삭제하시겠습니까?",
+                function () {
+                    // board.boardId 사용 X
                     $this.boardDelete(); // $this 사용
                 },
-                function(){
-                    console.log('cancel');
+                function () {
+                    console.log("cancel");
                 }
             );
         },
         async boardDelete() {
+            // parameter 사용 X
+
             try {
-                let response = await http.delete('/boards/' + this.board.boardId);
-                let { data } = response;
+                let { data } = await http.delete("/boards/" + this.$store.state.board.boardId);
                 console.log(data);
 
-                if(data.result == 'login'){
-                    this.$router.push("/login");
+                if (data.result == "login") {
+                    this.doLogout();
                 } else {
-                    this.$alertify.success('글이 삭제되었습니다.');
+                    this.$alertify.success("글이 삭제되었습니다.");
                     this.boardList();
                 }
             } catch (error) {
-                console.error(error);
-                this.$alertify.error('글 삭제 과정에 문제가 생겼습니다.');
+                console.log("BoardMainVue: error : ");
+                console.log(error);
             }
-        }
+
+            // http.delete(
+            //   "/boards/" + this.$store.state.board.boardId
+            //   )
+            //   .then(({ data }) => {
+            //     console.log("BoardMainVue: data : ");
+            //     console.log(data);
+            //     if( data.result == 'login' ){
+            //       this.doLogout();
+            //     }else{
+            //       this.boardList();
+            //     }
+            //   })
+            //   .catch( error => {
+            //       console.log(error)
+            //   });
+        },
+        // logout 처리 별도 method
+        doLogout() {
+            this.$store.commit("SET_LOGIN", { isLogin: false, userName: "", userProfileImageUrl: "" });
+            this.$router.push("/login");
+        },
     },
     created() {
         this.boardList();
     },
     mounted() {
-        this.insertModal = new Modal(document.querySelector('#insertModal'));
-        this.detailModal = new Modal(document.querySelector('#detailModal'));
-        this.updateModal = new Modal(document.querySelector('#updateModal'));
+        this.insertModal = new Modal(document.getElementById("insertModal"));
+        this.detailModal = new Modal(document.getElementById("detailModal"));
+        this.updateModal = new Modal(document.getElementById("updateModal"));
     },
     filters: {
-        makeDateStr(date, separator) {
-		    return date.year + separator + ( (date.month < 10) ? '0' + date.month : date.month ) + separator + ( (date.day < 10) ? '0' + date.day : date.day );
-        }
-    }
-}
+        makeDateStr: function (date, separator) {
+            return date.year + separator + (date.month < 10 ? "0" + date.month : date.month) + separator + (date.day < 10 ? "0" + date.day : date.day);
+        },
+    },
+};
 </script>
 
-<style>
+<style scoped>
 
 </style>
