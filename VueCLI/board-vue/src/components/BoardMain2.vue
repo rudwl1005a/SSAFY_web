@@ -136,28 +136,18 @@ export default {
                 if (data.result == 'login'){
                     this.$router.push("/login");
                 } else {
-                    // updateModal의 watch 호출 안됨 -> property만 바뀌기 때문에
-                    // let { dto } = data;
-                    // this.board.boardId = dto.boardId;
-                    // this.board.title = dto.title;
-                    // this.board.content= dto.content;
-                    // this.board.userName= dto.userName;
-                    // this.board.readCount = dto.readCount;
-                    // this.board.fileList = dto.fileList;
-                    // this.board.sameUser = dto.sameUser;
+                    let { dto } = data;
+                    this.board.boardId = dto.boardId;
+                    this.board.title = dto.title;
+                    this.board.content= dto.content;
+                    this.board.userName= dto.userName;
+                    this.board.readCount = dto.readCount;
+                    this.board.fileList = dto.fileList;
+                    this.board.sameUser = dto.sameUser;
 
-                    // let { regDt } = dto;
-                    // this.board.regDate= util.makeDateStr(regDt.date.year, regDt.date.month, regDt.date.day, '.');
-                    // this.board.regTime= util.makeTimeStr(regDt.time.hour, regDt.time.minute, regDt.time.second, ':');
-
-                    let { regDt } = data.dto; // destructuring
-                    let boardNew = {
-                        regDate: util.makeDateStr(regDt.date.year, regDt.date.month, regDt.date.day, '.'),
-                        regTime: util.makeTimeStr(regDt.time.hour, regDt.time.minute, regDt.time.second, ':'),
-                        ...data.dto
-                    }; // 3dot spread operator
-
-                    this.board = boardNew; // watch 호출
+                    let { regDt } = dto;
+                    this.board.regDate= util.makeDateStr(regDt.date.year, regDt.date.month, regDt.date.day, '.');
+                    this.board.regTime= util.makeTimeStr(regDt.time.hour, regDt.time.minute, regDt.time.second, ':');
 
                     this.detailModal.show();
                 }
@@ -173,37 +163,26 @@ export default {
             this.updateModal.hide();
             this.boardList();
         },
-        changeToDelete(){
-            this.detailModal.hide();
-
-            var $this = this; // alertify.confirm-function()에서 this 는 alertify 객체
-            this.$alertify.confirmWithTitle(
-                '삭제 확인',
-                '이 글을 삭제하시겠습니까?',
-                function(){
-                    $this.boardDelete(); // $this 사용
-                },
-                function(){
-                    console.log('cancel');
-                }
-            );
-        },
-        async boardDelete() {
+        async changeToDelete(boardId){
             try {
-                let response = await http.delete('/boards/' + this.board.boardId);
+                let response = await http.delete('/boards/' + boardId);
                 let { data } = response;
                 console.log(data);
 
                 if(data.result == 'login'){
                     this.$router.push("/login");
                 } else {
+                    this.list = data.list;
+                    this.totalListItemCount = data.count;
                     this.$alertify.success('글이 삭제되었습니다.');
-                    this.boardList();
                 }
             } catch (error) {
                 console.error(error);
                 this.$alertify.error('글 삭제 과정에 문제가 생겼습니다.');
             }
+
+            this.detailModal.hide();
+            this.boardList();
         }
     },
     created() {

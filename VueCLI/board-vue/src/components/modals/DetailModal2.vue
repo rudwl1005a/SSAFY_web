@@ -51,10 +51,8 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="modal-footer">
-                        <button v-show="board.sameUser" @click="changeToUpdate" class="btn btn-sm btn-primary btn-outline" data-bs-dismiss="modal" type="button">글 수정하기</button>
-                        <button v-show="board.sameUser" @click="changeToDelete" class="btn btn-sm btn-warning btn-outline" data-bs-dismiss="modal" type="button">글 삭제하기</button>
-                    </div>
+                    <button v-show="board.sameUser" @click="changeToUpdate" class="btn btn-sm btn-primary btn-outline" data-bs-dismiss="modal" type="button">글 수정하기</button>
+                    <button v-show="board.sameUser" @click="changeToDelete" class="btn btn-sm btn-warning btn-outline" data-bs-dismiss="modal" type="button">글 삭제하기</button>
                 </div>
             </div>
         </div>
@@ -69,7 +67,7 @@ export default {
             this.$emit('call-parent-change-to-update');
         },
         changeToDelete() {
-            this.$emit('call-parent-change-to-delete');
+            this.$emit('call-parent-change-to-delete', this.board.boardId);
         }
     }
 };

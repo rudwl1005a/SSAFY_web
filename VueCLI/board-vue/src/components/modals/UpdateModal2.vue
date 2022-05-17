@@ -12,7 +12,7 @@
 				<div class="modal-body">
 					<div class="mb-3">
 						<label for="titleUpdate" class="form-label">제목</label>
-						<input v-model="title" type="text" class="form-control" id="titleUpdate">
+						<input v-model="board.title" type="text" class="form-control" id="titleUpdate">
 					</div>
 					<div class="mb-3">
 						<div id=divEditorUpdate></div>
@@ -52,14 +52,20 @@ export default {
     props: ["board"],
     data() {
         return {
-            boardId: '',
-            title: '',
-            CKEditor: '',
+            CKEditor: "",
             attachFile: false,
             fileList: [],
+
+            //열렸을 때 값을 업데이트 하기 위한 플러그
+            isUpdated: false,
         };
     },
     methods: {
+        initUI() {
+            this.attachFile = false;
+            this.fileList = [];
+            document.querySelector('#inputFileUploadUpdate').value = '';
+        },
         changeFile(fileEvent) {
             this.fileList = [];
             const fileArray = Array.from(fileEvent.target.files);
@@ -67,8 +73,8 @@ export default {
         },
         async boardUpdate() {
             let formData = new FormData();
-            formData.append("boardId", this.boardId);
-            formData.append("title", this.title);
+            formData.append("boardId", this.board.boardId);
+            formData.append("title", this.board.title);
             formData.append("content", this.CKEditor.getData());
 
             let attachFiles = document.querySelector("#inputFileUploadUpdate").files;
@@ -109,19 +115,21 @@ export default {
             console.error(error);
         }
 
+        // this는 모달창, show.bs.modal는 모달이 만들어졌을 때 실행
+        let $this = this;
+        this.$el.addEventListener('show.bs.modal', function(){
+            // $this는 function
+            $this.initUI();
+        });
     },
-    watch: {
-        board : function(){
-            // props --> data
-            this.boardId = this.board.boardId;
-            this.title = this.board.title;
-            this.CKEditor.setData( this.board.content );
+    updated() {
+        // 제목과 내용 업데이트할 때 버그발생
+        // this.CKEditor.setData(this.board.content);
 
-            // 첨부 파일 관련 초기화
-            // 수정 또는 수정 전 첨부 파일을 선택하면 그대로 남아 있다.
-            this.attachFile = false;
-            this.fileList = [];
-            document.querySelector("#inputFileUploadUpdate").value = '';
+        //CKEditor가 빈칸이고 모달이 열렸을 때 CKEditor의 값을 초기화
+        if( !this.isUpdated && this.CKEditor.getData() == "" ){
+            this.CKEditor.setData(this.board.content);
+            this.isUpdated = true;
         }
     }
 }
