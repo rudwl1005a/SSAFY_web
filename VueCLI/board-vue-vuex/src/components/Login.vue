@@ -2,7 +2,7 @@
     <div class="container">
         <div class="container-fluid text-sm-center p-5 bg-light">
             <!-- bg-light is background color & p-5 is padding -->
-            <h1 class="display-2">삐따기 세상2</h1>
+            <h1 class="display-2">SSAFY Board Vuex</h1>
             <p class="lead">새로운 생각, 새로운 사람과 함께 합니다.</p>
         </div>
         <h2 class="mb-3 mt-3">Login</h2>

@@ -1,36 +1,32 @@
 <template>
-    <div class="modal" id="insertModal">
-        <div class="modal-dialog modal-lg">
+    <div class="modal" tabindex="-1" id="insertModal">
+        <div class="modal-dialog">
             <div class="modal-content">
-                <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">글쓰기</h4>
+                    <h5 class="modal-title">글 쓰기</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-
-                <!-- Modal Body -->
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="titleInsert" class="form-label">제목</label>
-                        <input v-model="title" type="text" class="form-control" id="titleInsert" />
-                    </div>
+                        <input v-model="title" type="text" class="form-control" placeholder="제목" />
+                    </div> 
                     <div class="mb-3">
-                        <label for="contentInsert" class="form-label">내용</label>
                         <div id="divEditorInsert"></div>
                     </div>
-                    <div class="mb-3">
-                        <div class="form-check">
-                            <input v-model="attachFile" class="form-check-input" type="checkbox" value="" id="chkFileUploadInsert" />
-                            <label class="form-check-label" for="chkFileUploadInsert">파일 추가</label>
-                        </div>
+                    <div class="form-check mb-3">
+                        <input v-model="attachFile" class="form-check-input" type="checkbox" value="" id="chkFileUploadInsert" />
+                        <label class="form-check-label" for="chkFileUploadInsert">파일 추가</label>
                     </div>
-                    <div v-show="attachFile" class="mb-3" style="display: none" id="imgFileUploadInsertWrapper">
-                        <input @change="changeFile" type="file" id="inputFileUploadInsert" multiple />
+                    <div class="mb-3" v-show="attachFile" id="imgFileUploadInsertWrapper">
+                        <input @click="changeFile" type="file" id="inputFileUploadInsert" multiple />
                         <div id="imgFileUploadInsertThumbnail" class="thumbnail-wrapper">
-                            <img v-for="(file, index) in fileList" :key="index" v-bind:src="file" alt="" />
+                            <!-- vue way img 를 만들어서 append 하지 않고, v-for 로 처리 -->
+                            <img v-for="(file, index) in fileList" v-bind:src="file" v-bind:key="index" />
                         </div>
                     </div>
-                    <button @click="boardInsert" class="btn btn-sm btn-primary btn-outline float-end" data-bs-dismiss="modal" type="button">등록</button>
+                </div>
+                <div class="modal-footer">
+                    <button @click="boardInsert" class="btn btn-sm btn-primary btn-outline" data-dismiss="modal" type="button">등록</button>
                 </div>
             </div>
         </div>
@@ -41,12 +37,15 @@
 import Vue from "vue";
 import CKEditor from "@ckeditor/ckeditor5-vue2";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import VueAlertify from 'vue-alertify'
-import http from '@/common/axios.js'
+import VueAlertify from "vue-alertify";
 
 Vue.use(CKEditor).use(VueAlertify);
 
+import http from "@/common/axios.js";
+
 export default {
+    name: "InsertModal",
+    // data 가 최초 발생하는 곳이므로 store 를 사용하지 않아도 됨.
     data() {
         return {
             title: "",
@@ -56,70 +55,64 @@ export default {
         };
     },
     methods: {
+        // modal 초기화
         initUI() {
-            this.title = '';
-            this.CKEditor.setData('');
+            this.title = "";
+            this.CKEditor.setData("");
             this.attachFile = false;
             this.fileList = [];
-            document.querySelector('#inputFileUploadInsert').value = '';
+            document.querySelector("#inputFileUploadInsert").value = "";
         },
         changeFile(fileEvent) {
-            // 첨부 파일의 목록
-            this.fileList = [];
+            this.fileList = []; // thumbnail 초기화
 
-            /* Array로 변환하여 forEach사용 */
             const fileArray = Array.from(fileEvent.target.files);
-            fileArray.forEach(file => this.fileList.push(URL.createObjectURL(file)));
-
-            /* for문 사용 */
-            // const fileArray = fileEvent.target.files;
-            // let cnt = fileArray.length;
-            // for (let i = 0; i < cnt; i++) {
-            //     this.fileList.push(URL.createObjectURL(fileArray[i]));
-            // }
+            fileArray.forEach(file => {
+                this.fileList.push(URL.createObjectURL(file)); // push : array 에 항목 추가
+            });
         },
+        // 굳이 actions 에 있을 필요 없다. backend async 작업이지만, 그 결과로 store 를 변경하는 내용이 없다.
         async boardInsert() {
             let formData = new FormData();
             formData.append("title", this.title);
             formData.append("content", this.CKEditor.getData());
 
-            /* Array로 변환하여 forEach사용 */
+            // file upload
             let attachFiles = document.querySelector("#inputFileUploadInsert").files;
+
             if (attachFiles.length > 0) {
-                const fileArray  = Array.from(attachFiles);
+                const fileArray = Array.from(attachFiles);
                 fileArray.forEach(file => formData.append("file", file));
             }
 
-            /* for문 사용 */
-            // let attachFiles = document.querySelector("#inputFileUploadInsert");
-            // let cnt = attachFiles.files.length;
-            // for (let i = 0; i < cnt; i++) {
-            //     formData.append("file", attachFiles.files[i]);
-            // }
-
             let options = {
-                headers: {'Content-type': 'multipart/form-data'}
-            }
+                headers: { "Content-Type": "multipart/form-data" },
+            };
 
             try {
-                let response = await http.post('/boards', formData, options);
-                let { data } = response;
-                console.log(data);
+                let { data } = await http.post("/boards", formData, options);
 
-                if(data.result == 'login'){
-                    this.$router.push("/login");
+                console.log("InsertModalVue: data : ");
+                console.log(data);
+                if (data.result == "login") {
+                    this.doLogout();
                 } else {
-                    this.$alertify.success('글이 등록되었습니다.');
+                    this.$alertify.success("글이 등록되었습니다.");
                     this.closeModal();
                 }
             } catch (error) {
-                console.error(error);
-                this.$alertify.error('글 등록 과정에 문제가 생겼습니다.');
+                console.log("InsertModalVue: error ");
+                console.log(error);
             }
         },
         closeModal() {
-            this.$emit('call-parent-insert');
-        }
+            this.$emit("call-parent-insert"); // no parameter
+        },
+        // logout 처리 별도 method
+        doLogout() {
+            this.$store.commit("SET_LOGIN", { isLogin: false, userName: "", userProfileImageUrl: "" });
+            this.$router.push("/login");
+        },
     },
     async mounted() {
         try {
@@ -128,10 +121,10 @@ export default {
             console.error(error);
         }
 
-        // this는 모달창, show.bs.modal는 모달이 만들어졌을 때 실행
+        // bootstrap modal show event hook
+        // InsertModal 이 보일 때 초기화
         let $this = this;
-        this.$el.addEventListener('show.bs.modal', function(){
-            // $this는 function
+        this.$el.addEventListener("show.bs.modal", function () {
             $this.initUI();
         });
     },
@@ -142,7 +135,7 @@ export default {
 .modal >>> .ck-editor__editable {
     min-height: 300px !important;
 }
-/*파일업로드 thumbnail*/
+
 .modal >>> .thumbnail-wrapper {
     margin-top: 5px;
 }

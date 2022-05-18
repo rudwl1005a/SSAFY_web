@@ -6,17 +6,33 @@ Vue.use(VueRouter);
 import BoardMain from '@/components/BoardMain.vue'
 import Login from "@/components/Login.vue"
 import User from "@/components/User.vue"
+import Register from "@/components/Register.vue"
+import store from "@/store/store.js"
 
 export default new VueRouter({
     routes: [
         {
             path: '/',
-            component: Login,
+            component: BoardMain,
+            beforeEnter: (to, from, next) => {
+                if(!store.state.login.isLogin){
+                    next("/login");
+                } else {
+                    return next();
+                }
+            }
         },
         {
             name: 'BoardMain',
             path: '/board',
             component: BoardMain,
+            beforeEnter: (to, from, next) => {
+                if(!store.state.login.isLogin){
+                    next("/login");
+                } else {
+                    return next();
+                }
+            }
         },
         {
             name: 'Login',
@@ -27,6 +43,11 @@ export default new VueRouter({
             name: 'User',
             path: '/user',
             component: User,
+        },
+        {
+            name: 'Register',
+            path: '/register',
+            component: Register,
         },
     ]
 });
